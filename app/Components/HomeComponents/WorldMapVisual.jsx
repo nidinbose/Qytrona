@@ -11,9 +11,14 @@ const india = { name: "India", lat: 22.3511, lng: 78.6677 };
 
 const connections = [
   { name: "New York", lat: 40.7128, lng: -74.006 },
+  { name: "Toronto", lat: 43.6532, lng: -79.3832 },
+  { name: "São Paulo", lat: -23.5505, lng: -46.6333 },
   { name: "London", lat: 51.5074, lng: -0.1278 },
+  { name: "Berlin", lat: 52.52, lng: 13.405 },
+  { name: "Johannesburg", lat: -26.2041, lng: 28.0473 },
   { name: "Dubai", lat: 25.2048, lng: 55.2708 },
   { name: "Singapore", lat: 1.3521, lng: 103.8198 },
+  { name: "Tokyo", lat: 35.6762, lng: 139.6503 },
   { name: "Sydney", lat: -33.8688, lng: 151.2093 },
 ];
 
