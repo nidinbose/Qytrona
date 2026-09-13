@@ -549,7 +549,7 @@ function WhatsAppContactRow({ contact, onNavigate }) {
   );
 }
 
-function WhatsAppButton({ solid }) {
+function WhatsAppButton() {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
   const closeTimer = useRef(null);
@@ -598,11 +598,7 @@ function WhatsAppButton({ solid }) {
         }}
         aria-label="Make a free consultation on WhatsApp"
         aria-expanded={open}
-        className={`flex items-center justify-center gap-2 rounded-full bg-transparent border-2 w-11 h-11 xl:w-auto xl:h-auto xl:pl-4 xl:pr-5 xl:py-2.5 text-sm font-medium transition-all duration-300 active:scale-95 ${
-          solid
-            ? "border-black/15 text-[#0c0705] hover:border-[#FF5F2D] hover:text-[#FF5F2D]"
-            : "border-white/70 text-white hover:border-[#FF5F2D] hover:text-[#FF5F2D]"
-        }`}
+        className="flex items-center justify-center gap-2 rounded-full bg-[#FF5F2D] hover:bg-[#e6541f] w-11 h-11 xl:w-auto xl:h-auto xl:pl-4 xl:pr-5 xl:py-2.5 text-sm font-medium text-white transition-all duration-300 active:scale-95"
       >
         <Icon name="headset" className="w-5 h-5" />
         <span className="hidden xl:inline">Free Consultation</span>
@@ -783,7 +779,7 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-3">
-            <WhatsAppButton solid />
+            <WhatsAppButton />
             <MenuToggle open={mobileOpen} onClick={() => setMobileOpen((v) => !v)} />
           </div>
         </nav>

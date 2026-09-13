@@ -210,7 +210,7 @@ function FloatingBadge({ label, icon: Icon, angle, delay = "0s" }) {
 
   return (
     <div
-      className="absolute z-10 flex items-center gap-0 sm:gap-2 rounded-full bg-white/90 backdrop-blur-md border border-gray-200 shadow-sm p-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-medium text-gray-700 whitespace-nowrap animate-float"
+      className="absolute z-20 flex items-center gap-0 sm:gap-2 xl:gap-0 2xl:gap-2 rounded-full bg-white/90 backdrop-blur-md border border-gray-200 shadow-sm p-1.5 sm:px-3.5 sm:py-2 xl:p-1.5 2xl:px-3.5 2xl:py-2 text-[11px] sm:text-xs font-medium text-gray-700 whitespace-nowrap animate-float"
       style={{
         left: `${left}%`,
         top: `${top}%`,
@@ -218,10 +218,10 @@ function FloatingBadge({ label, icon: Icon, angle, delay = "0s" }) {
         animationDelay: delay,
       }}
     >
-      <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-orange-50 text-[#FF5F2D] shrink-0">
-        <Icon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+      <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 xl:w-5 xl:h-5 2xl:w-6 2xl:h-6 rounded-full bg-orange-50 text-[#FF5F2D] shrink-0">
+        <Icon className="w-3 h-3 sm:w-3.5 sm:h-3.5 xl:w-3 xl:h-3 2xl:w-3.5 2xl:h-3.5" />
       </span>
-      <span className="hidden sm:inline">{label}</span>
+      <span className="hidden sm:inline xl:hidden 2xl:inline">{label}</span>
     </div>
   );
 }
@@ -229,9 +229,9 @@ function FloatingBadge({ label, icon: Icon, angle, delay = "0s" }) {
 export default function LandingPage() {
   return (
     <section className="relative w-full overflow-hidden bg-white text-gray-600">
-      <div className="relative flex min-h-screen w-full flex-col lg:flex-row">
-        {/* Content column */}
-        <div className="relative z-10 order-2 flex w-full flex-col justify-center px-6 pb-12 pt-8 sm:px-10 sm:pb-16 sm:pt-10 lg:order-1 lg:min-h-screen lg:px-14 lg:py-6">
+      <div className="relative grid grid-cols-1 w-full xl:flex xl:flex-row">
+        {/* Content row */}
+        <div className="relative z-10 xl:order-1 flex w-full flex-col justify-center px-6 pb-12 pt-24 sm:px-10 sm:pb-16 sm:pt-28 md:pt-32 lg:px-14 lg:pt-36 lg:pb-16 xl:h-full xl:pt-40">
           <div className="max-w-xl lg:max-w-6xl">
             <div className="relative">
               <span className="absolute -top-7 left-1 text-sm text-gray-500 italic hidden sm:block">
@@ -243,68 +243,70 @@ export default function LandingPage() {
               </h1>
             </div>
 
-            <p className="mt-5 sm:mt-6 text-gray-600 text-base sm:text-lg max-w-xs sm:max-w-sm leading-snug">
-              Grow Your Online Presence With Expert Web Design & SEO-Driven
-              Digital Marketing
-            </p>
+            <div className="mt-5 sm:mt-6 flex flex-col gap-6 sm:gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10 xl:flex-col xl:items-start xl:justify-start xl:gap-8">
+              <div>
+                <p className="text-gray-600 text-base sm:text-lg max-w-xs sm:max-w-sm leading-snug">
+                  Grow Your Online Presence With Expert Web Design &
+                  SEO-Driven Digital Marketing
+                </p>
 
-            <div className="mt-6 sm:mt-8 flex items-center gap-4 sm:gap-6 flex-wrap">
-              <button className="flex items-center gap-3 bg-orange-600 hover:bg-orange-500 transition-colors rounded-full pl-6 pr-1.5 py-1.5 font-medium text-white">
-                Read More
-                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-black text-[#FF5F2D]">
-                  <ArrowIcon className="w-4 h-4" />
-                </span>
-              </button>
+                <div className="mt-6 sm:mt-8 flex items-center gap-4 sm:gap-6 flex-wrap">
+                  <button className="flex items-center gap-3 bg-orange-600 hover:bg-orange-500 transition-colors rounded-full pl-6 pr-1.5 py-1.5 font-medium text-white">
+                    Read More
+                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-black text-[#FF5F2D]">
+                      <ArrowIcon className="w-4 h-4" />
+                    </span>
+                  </button>
 
-              <div className="flex items-center gap-3">
-                <div className="flex -space-x-3">
-                  {avatarColors.map((grad, i) => (
-                    <div
-                      key={i}
-                      className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br ${grad} border-2 border-white`}
-                    />
-                  ))}
+                  <div className="flex items-center gap-3">
+                    <div className="flex -space-x-3">
+                      {avatarColors.map((grad, i) => (
+                        <div
+                          key={i}
+                          className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br ${grad} border-2 border-white`}
+                        />
+                      ))}
+                    </div>
+                    <p className="text-sm text-gray-600 leading-tight">
+                      500+ Happy Clients
+                      <br />
+                      Worldwide
+                    </p>
+                  </div>
                 </div>
-                <p className="text-sm text-gray-600 leading-tight">
-                  500+ Happy Clients
-                  <br />
-                  Worldwide
-                </p>
-              </div>
-            </div>
-
-            {/* Bottom floating cards */}
-            <div className="mt-8 sm:mt-10 flex items-end gap-3 sm:gap-4 flex-wrap">
-              <div className="w-24 h-28 sm:w-32 sm:h-36 rounded-2xl overflow-hidden border border-gray-200 bg-black flex items-center justify-center p-4 sm:p-5 shrink-0">
-                <img
-                  src="/Images/Logo.jpeg"
-                  alt="Company logo"
-                  className="h-full w-full object-contain"
-                />
               </div>
 
-              <div className="rounded-2xl bg-gray-50 backdrop-blur-md border border-gray-200 px-4 py-3.5 sm:px-5 sm:py-4 w-[calc(100%-6.5rem)] max-w-[210px] sm:w-56 sm:max-w-none shadow-sm">
-                <span className="inline-flex items-center gap-1.5 text-xs bg-orange-50 rounded-full px-2.5 py-1 text-[#FF5F2D]">
-                  <GrowthIcon className="w-3.5 h-3.5" />
-                  Business Growth
-                </span>
-                <p className="mt-3 text-2xl sm:text-3xl font-semibold text-gray-900">
-                  567+
-                </p>
-                <p className="text-sm text-gray-500">Expert Solutions</p>
-                <button className="mt-3 flex items-center justify-center w-9 h-9 rounded-full bg-orange-600 text-white hover:bg-orange-500 transition-colors">
-                  <ArrowIcon className="w-4 h-4" />
-                </button>
+              {/* Bottom floating cards */}
+              <div className="flex items-end gap-3 sm:gap-4 flex-wrap">
+                <div className="w-24 h-28 sm:w-32 sm:h-36 rounded-2xl overflow-hidden border border-gray-200 bg-black flex items-center justify-center p-4 sm:p-5 shrink-0">
+                  <img
+                    src="/Images/Logo.jpeg"
+                    alt="Company logo"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+
+                <div className="rounded-2xl bg-gray-50 backdrop-blur-md border border-gray-200 px-4 py-3.5 sm:px-5 sm:py-4 w-[calc(100%-6.5rem)] max-w-[210px] sm:w-56 sm:max-w-none shadow-sm">
+                  <span className="inline-flex items-center gap-1.5 text-xs bg-orange-50 rounded-full px-2.5 py-1 text-[#FF5F2D]">
+                    <GrowthIcon className="w-3.5 h-3.5" />
+                    Business Growth
+                  </span>
+                  <p className="mt-3 text-2xl sm:text-3xl font-semibold text-gray-900">
+                    567+
+                  </p>
+                  <p className="text-sm text-gray-500">Expert Solutions</p>
+                  <button className="mt-3 flex items-center justify-center w-9 h-9 rounded-full bg-orange-600 text-white hover:bg-orange-500 transition-colors">
+                    <ArrowIcon className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Globe / visual panel */}
-        <div
-          className="relative order-1 flex w-full items-center justify-center px-8 pt-24 pb-2 sm:px-10 sm:pt-28 lg:order-2 lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-[46%] lg:min-w-[300px] lg:px-8 lg:py-0 xl:px-10 lg:[mask-image:linear-gradient(90deg,transparent_0%,black_18%)] lg:[-webkit-mask-image:linear-gradient(90deg,transparent_0%,black_18%)]"
-        >
-          <div className="relative w-full max-w-[230px] sm:max-w-[300px] md:max-w-[340px] lg:max-w-[380px] xl:max-w-[440px] 2xl:max-w-[500px] aspect-square">
+        {/* Globe / visual row */}
+        <div className="relative xl:order-2 flex w-full items-center justify-center px-8 pb-16 pt-2 sm:px-10 sm:pb-20 lg:px-14 lg:pb-24 xl:absolute xl:inset-y-0 xl:right-0 xl:mr-16 xl:h-full xl:w-[46%] xl:min-w-[300px] xl:px-8 xl:py-0 xl:pt-0 xl:pb-0 2xl:px-10 xl:[mask-image:linear-gradient(90deg,transparent_0%,black_18%)] xl:[-webkit-mask-image:linear-gradient(90deg,transparent_0%,black_18%)]">
+          <div className="relative w-full max-w-[230px] sm:max-w-[300px] md:max-w-[340px] lg:max-w-[400px] xl:max-w-[440px] 2xl:max-w-[500px] aspect-square">
             <Globe className="w-full h-full" />
 
             {/* Dashed orbit accent */}

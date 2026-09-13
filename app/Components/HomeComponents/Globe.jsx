@@ -136,11 +136,11 @@ export default function Globe({ className = "" }) {
         if (p.z <= 0) continue;
         const depth = p.z;
         const twinkle = (Math.sin(t * vec.speed + vec.phase) + 1) / 2;
-        const size = (0.6 + depth * 0.9 + twinkle * 0.6) * dpr;
-        const alpha = 0.2 + depth * 0.4 + twinkle * 0.3;
+        const size = (0.5 + depth * 0.7 + twinkle * 0.35) * dpr;
+        const alpha = 0.12 + depth * 0.22 + twinkle * 0.14;
         ctx.beginPath();
         ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(107,114,128,${Math.min(alpha, 0.95)})`;
+        ctx.fillStyle = `rgba(156,163,175,${Math.min(alpha, 0.55)})`;
         ctx.fill();
       }
 
