@@ -482,14 +482,12 @@ function SimpleMenu({ item, onNavigate }) {
             <a
               href="#"
               onClick={onNavigate}
-              className="group flex items-center justify-between py-4 text-lg sm:text-xl lg:text-2xl font-semibold text-neutral-500 hover:text-[#0c0705] transition-colors"
+              className="group flex items-center justify-between py-4 text-lg sm:text-xl lg:text-2xl font-semibold text-[#0c0705]/80 hover:text-[#FF5F2D] transition-colors"
             >
-              <span className="group-hover:text-orange-500 transition-colors">
-                {link}
-              </span>
+              <span className="transition-colors">{link}</span>
               <Icon
                 name="arrow"
-                className="w-6 h-6 text-orange-500 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
+                className="w-6 h-6 text-[#FF5F2D] opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
               />
             </a>
           </li>
@@ -602,8 +600,8 @@ function WhatsAppButton({ solid }) {
         aria-expanded={open}
         className={`flex items-center justify-center gap-2 rounded-full bg-transparent border-2 w-11 h-11 xl:w-auto xl:h-auto xl:pl-4 xl:pr-5 xl:py-2.5 text-sm font-medium transition-all duration-300 active:scale-95 ${
           solid
-            ? "border-black/15 text-[#0c0705] hover:border-[#25D366] hover:text-[#25D366]"
-            : "border-white/70 text-white hover:border-[#25D366] hover:text-[#25D366]"
+            ? "border-black/15 text-[#0c0705] hover:border-[#FF5F2D] hover:text-[#FF5F2D]"
+            : "border-white/70 text-white hover:border-[#FF5F2D] hover:text-[#FF5F2D]"
         }`}
       >
         <Icon name="headset" className="w-5 h-5" />
@@ -731,19 +729,16 @@ export default function Navbar() {
   }, [openMenu, mobileOpen]);
 
   const activeItem = navItems.find((i) => i.key === openMenu);
-  const navSolid = Boolean(activeItem);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 w-full">
       <div
-        className={`relative transition-[background-color,transform] duration-300 ease-out ${
-          navSolid ? "bg-white shadow-sm" : "bg-transparent"
-        } ${
+        className={`relative transition-[background-color,transform] duration-300 ease-out bg-white ${
           hideNav && !openMenu && !mobileOpen ? "-translate-y-full" : "translate-y-0"
         }`}
       >
         <nav className="relative z-10 w-full pl-2 pr-6 sm:px-10 lg:px-14 h-20 md:h-24 flex items-center justify-between">
-          <Logo solid={navSolid} />
+          <Logo solid />
 
           <div className="hidden lg:flex items-center">
             <ul
@@ -766,10 +761,8 @@ export default function Navbar() {
                       href={hasDropdown ? undefined : "#"}
                       className={`flex items-center gap-1.5 py-2 text-[15px] font-medium border-b-2 transition-colors cursor-pointer ${
                         isOpen
-                          ? "text-orange-500 border-orange-500"
-                          : navSolid
-                          ? "text-neutral-800 border-transparent hover:text-orange-500"
-                          : "text-white/80 border-transparent hover:text-orange-500"
+                          ? "text-[#FF5F2D] border-[#FF5F2D]"
+                          : "text-black border-transparent hover:text-[#FF5F2D]"
                       }`}
                       aria-expanded={hasDropdown ? isOpen : undefined}
                     >
@@ -790,7 +783,7 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-3">
-            <WhatsAppButton solid={navSolid} />
+            <WhatsAppButton solid />
             <MenuToggle open={mobileOpen} onClick={() => setMobileOpen((v) => !v)} />
           </div>
         </nav>

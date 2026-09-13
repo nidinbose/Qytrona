@@ -5,8 +5,16 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-clash-display);
   --font-mono: var(--font-geist-mono);
+}
+
+body {
+  font-family: var(--font-clash-display), ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme {
+  --color-orange-600: #ff5f2d;
 }
 
 @keyframes dropdown-content-in {
@@ -18,5 +26,19 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
 }
 
