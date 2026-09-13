@@ -243,9 +243,9 @@ export default function LandingPage() {
               </h1>
             </div>
 
-            <div className="mt-5 sm:mt-6 flex flex-col gap-6 sm:gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10 xl:flex-col xl:items-start xl:justify-start xl:gap-8">
-              <div>
-                <p className="text-gray-600 text-base sm:text-lg max-w-xs sm:max-w-sm leading-snug">
+            <div className="mt-5 sm:mt-6 flex flex-col gap-6 sm:gap-8 md:flex-row md:items-center md:justify-between md:gap-10 xl:flex-col xl:items-start xl:justify-start xl:gap-8">
+              <div className="md:max-w-lg">
+                <p className="text-gray-600 text-base sm:text-lg max-w-xs sm:max-w-sm md:max-w-lg xl:max-w-sm leading-snug">
                   Grow Your Online Presence With Expert Web Design &
                   SEO-Driven Digital Marketing
                 </p>
@@ -277,7 +277,7 @@ export default function LandingPage() {
               </div>
 
               {/* Bottom floating cards */}
-              <div className="flex items-end gap-3 sm:gap-4 flex-wrap">
+              <div className="flex items-end gap-3 sm:gap-4 flex-wrap md:max-w-sm">
                 <div className="w-24 h-28 sm:w-32 sm:h-36 rounded-2xl overflow-hidden border border-gray-200 bg-black flex items-center justify-center p-4 sm:p-5 shrink-0">
                   <img
                     src="/Images/Logo.jpeg"
@@ -286,7 +286,7 @@ export default function LandingPage() {
                   />
                 </div>
 
-                <div className="rounded-2xl bg-gray-50 backdrop-blur-md border border-gray-200 px-4 py-3.5 sm:px-5 sm:py-4 w-[calc(100%-6.5rem)] max-w-[210px] sm:w-56 sm:max-w-none shadow-sm">
+                <div className="rounded-2xl bg-gray-50 backdrop-blur-md border border-gray-200 px-4 py-3.5 sm:px-5 sm:py-4 w-[calc(100%-6.5rem)] max-w-[210px] sm:w-56 sm:max-w-none md:w-72 xl:w-56 shadow-sm">
                   <span className="inline-flex items-center gap-1.5 text-xs bg-orange-50 rounded-full px-2.5 py-1 text-[#FF5F2D]">
                     <GrowthIcon className="w-3.5 h-3.5" />
                     Business Growth

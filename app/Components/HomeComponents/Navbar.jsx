@@ -105,6 +105,13 @@ const iconPaths = {
       <path d="M19.5 19.5v.5a3 3 0 0 1-3 3h-2.2" />
     </>
   ),
+  briefcase: (
+    <>
+      <rect x="2.5" y="7" width="19" height="13" rx="2" />
+      <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      <path d="M2.5 13h19" />
+    </>
+  ),
 };
 
 function Icon({ name, className = "w-4 h-4" }) {
@@ -129,21 +136,21 @@ function MenuToggle({ open, onClick }) {
       onClick={onClick}
       aria-label="Toggle menu"
       aria-expanded={open}
-      className="lg:hidden relative flex items-center justify-center w-11 h-11 rounded-full bg-gray-100 shadow-md shadow-black/10 transition-transform duration-300 active:scale-90"
+      className="lg:hidden relative flex items-center justify-center w-11 h-11 rounded-full bg-[#0c0705] shadow-md shadow-black/10 transition-transform duration-300 active:scale-90"
     >
       <span className="relative block w-4.5 h-3.5">
         <span
-          className={`absolute left-0 h-[2px] w-4.5 rounded-full bg-[#0c0705] transition-all duration-300 ease-[cubic-bezier(0.65,0,0.35,1)] ${
+          className={`absolute left-0 h-[2px] w-4.5 rounded-full bg-white transition-all duration-300 ease-[cubic-bezier(0.65,0,0.35,1)] ${
             open ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0 rotate-0"
           }`}
         />
         <span
-          className={`absolute left-0 top-1/2 -translate-y-1/2 h-[2px] rounded-full bg-[#0c0705] transition-all duration-200 ${
+          className={`absolute left-0 top-1/2 -translate-y-1/2 h-[2px] rounded-full bg-white transition-all duration-200 ${
             open ? "w-0 opacity-0" : "w-4.5 opacity-100"
           }`}
         />
         <span
-          className={`absolute left-0 h-[2px] w-4.5 rounded-full bg-[#0c0705] transition-all duration-300 ease-[cubic-bezier(0.65,0,0.35,1)] ${
+          className={`absolute left-0 h-[2px] w-4.5 rounded-full bg-white transition-all duration-300 ease-[cubic-bezier(0.65,0,0.35,1)] ${
             open ? "top-1/2 -translate-y-1/2 -rotate-45" : "top-full -translate-y-full rotate-0"
           }`}
         />
@@ -214,11 +221,11 @@ const scheduleDays = [
 ];
 
 const portfolioLinks = [
-  "Website Design",
-  "Web Applications",
-  "Mobile Applications",
-  "Case Studies",
-  "View All Work",
+  { label: "Website Design", icon: "layout" },
+  { label: "Web Applications", icon: "code" },
+  { label: "Mobile Applications", icon: "phone" },
+  { label: "Case Studies", icon: "briefcase" },
+  { label: "View All Work", icon: "arrow" },
 ];
 
 const companyLinks = ["About Us", "Careers", "Our Team", "Contact Us"];
@@ -477,21 +484,33 @@ function SimpleMenu({ item, onNavigate }) {
   return (
     <div className="grid lg:grid-cols-[1.3fr_1fr] gap-10 items-start">
       <ul>
-        {item.items.map((link) => (
-          <li key={link} className="border-b border-black/10">
-            <a
-              href="#"
-              onClick={onNavigate}
-              className="group flex items-center justify-between py-4 text-lg sm:text-xl lg:text-2xl font-semibold text-[#0c0705]/80 hover:text-[#FF5F2D] transition-colors"
-            >
-              <span className="transition-colors">{link}</span>
-              <Icon
-                name="arrow"
-                className="w-6 h-6 text-[#FF5F2D] opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
-              />
-            </a>
-          </li>
-        ))}
+        {item.items.map((link) => {
+          const { label, icon } =
+            typeof link === "string" ? { label: link, icon: null } : link;
+          return (
+            <li key={label} className="border-b border-black/10">
+              <a
+                href="#"
+                onClick={onNavigate}
+                className="group flex items-center justify-between py-4 text-lg sm:text-xl lg:text-2xl font-semibold text-[#0c0705]/80 hover:text-[#FF5F2D] transition-colors"
+              >
+                <span className="flex items-center gap-3 transition-colors">
+                  {icon && (
+                    <Icon
+                      name={icon}
+                      className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF5F2D] shrink-0"
+                    />
+                  )}
+                  {label}
+                </span>
+                <Icon
+                  name="arrow"
+                  className="w-6 h-6 text-[#FF5F2D] opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
+                />
+              </a>
+            </li>
+          );
+        })}
       </ul>
 
       <div className="rounded-2xl border border-black/10 bg-neutral-50 p-8 shadow-sm">
@@ -833,7 +852,7 @@ export default function Navbar() {
 
       {/* mobile drawer */}
       <div
-        className={`lg:hidden fixed inset-x-0 top-20 bottom-0 z-50 w-full bg-black/30 backdrop-blur-2xl border-t border-white/10 overflow-y-auto transition-all duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] ${
+        className={`lg:hidden fixed inset-x-0 top-20 bottom-0 z-50 w-full bg-white border-t border-black/10 overflow-y-auto transition-all duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] ${
           mobileOpen
             ? "translate-x-0 opacity-100 pointer-events-auto"
             : "translate-x-full opacity-0 pointer-events-none"
@@ -847,7 +866,7 @@ export default function Navbar() {
             return (
               <li
                 key={item.key}
-                className={`border-b border-white/10 last:border-none transition-all duration-400 ease-out ${
+                className={`border-b border-black/10 last:border-none transition-all duration-400 ease-out ${
                   mobileOpen
                     ? "opacity-100 translate-x-0"
                     : "opacity-0 translate-x-6"
@@ -857,7 +876,7 @@ export default function Navbar() {
                 }}
               >
                 <button
-                  className="w-full flex items-center justify-between py-3.5 text-xl font-medium text-white/90"
+                  className="w-full flex items-center justify-between py-3.5 text-xl font-medium text-black hover:text-[#FF5F2D] transition-colors"
                   onClick={() =>
                     hasDropdown
                       ? setMobileExpanded(expanded ? null : item.key)
@@ -868,8 +887,8 @@ export default function Navbar() {
                   {hasDropdown && (
                     <Icon
                       name="chevron"
-                      className={`w-6 h-6 transition-transform duration-300 ${
-                        expanded ? "rotate-180 text-orange-500" : ""
+                      className={`w-6 h-6 text-[#FF5F2D] transition-transform duration-300 ${
+                        expanded ? "rotate-180" : ""
                       }`}
                     />
                   )}
@@ -885,17 +904,29 @@ export default function Navbar() {
                       <div className="pb-4">
                         {item.type === "simple" && (
                           <ul className="space-y-1">
-                            {item.items.map((link) => (
-                              <li key={link}>
-                                <a
-                                  href="#"
-                                  onClick={() => setMobileOpen(false)}
-                                  className="block px-3 py-2.5 text-lg text-white/60 hover:text-orange-500"
-                                >
-                                  {link}
-                                </a>
-                              </li>
-                            ))}
+                            {item.items.map((link) => {
+                              const { label, icon } =
+                                typeof link === "string"
+                                  ? { label: link, icon: null }
+                                  : link;
+                              return (
+                                <li key={label}>
+                                  <a
+                                    href="#"
+                                    onClick={() => setMobileOpen(false)}
+                                    className="flex items-center gap-3 px-3 py-2.5 text-lg text-black hover:text-[#FF5F2D] transition-colors"
+                                  >
+                                    {icon && (
+                                      <Icon
+                                        name={icon}
+                                        className="w-6 h-6 text-[#FF5F2D] shrink-0"
+                                      />
+                                    )}
+                                    {label}
+                                  </a>
+                                </li>
+                              );
+                            })}
                           </ul>
                         )}
                         {item.type === "industries" && (
@@ -910,9 +941,9 @@ export default function Navbar() {
                                   <a
                                     href="#"
                                     onClick={() => setMobileOpen(false)}
-                                    className="flex items-center gap-3 px-3 py-2.5 text-lg text-white/60 hover:text-orange-500"
+                                    className="flex items-center gap-3 px-3 py-2.5 text-lg text-black hover:text-[#FF5F2D] transition-colors"
                                   >
-                                    <Icon name={ind.icon} className="w-6 h-6 text-orange-500" />
+                                    <Icon name={ind.icon} className="w-6 h-6 text-[#FF5F2D]" />
                                     {ind.label}
                                   </a>
                                 </li>
@@ -926,9 +957,9 @@ export default function Navbar() {
                                 <a
                                   href="#"
                                   onClick={() => setMobileOpen(false)}
-                                  className="flex items-center gap-3 px-3 py-2.5 text-lg text-white/60 hover:text-orange-500"
+                                  className="flex items-center gap-3 px-3 py-2.5 text-lg text-black hover:text-[#FF5F2D] transition-colors"
                                 >
-                                  <Icon name={c.icon} className="w-6 h-6 text-orange-500" />
+                                  <Icon name={c.icon} className="w-6 h-6 text-[#FF5F2D]" />
                                   {c.title}
                                 </a>
                               </li>
