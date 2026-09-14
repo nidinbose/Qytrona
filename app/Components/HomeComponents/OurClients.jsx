@@ -1,12 +1,6 @@
 "use client";
 
 const clientLogos = [
-  { name: "BBB", src: "/Images/clients/bbb.svg" },
-  { name: "CloudBeds", src: "/Images/clients/cloudbeds.svg" },
-  { name: "gosite", src: "/Images/clients/gosite.svg" },
-  { name: "Inscripta", src: "/Images/clients/inscripta.svg" },
-  { name: "nadel.com", src: "/Images/clients/nadel.svg" },
-  { name: "Level 10", src: "/Images/clients/level10.svg" },
   { name: "Luna Grill", src: "/Images/clients/lunagrill.svg" },
   { name: "Mesa Biotech", src: "/Images/clients/mesabiotech.svg" },
   { name: "MindBody", src: "/Images/clients/mindbody.svg" },
@@ -58,25 +52,20 @@ export default function OurClients() {
   return (
     <section className="relative w-full bg-white px-6 py-16 sm:px-10 sm:py-20 lg:px-14 lg:py-24">
       <div className="w-full">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16">
-          <h2 className="text-3xl font-semibold tracking-tight text-[#0c0705] sm:text-4xl lg:text-5xl">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-16">
+          <h2 className="text-3xl font-semibold tracking-tight text-[#0c0705] sm:text-4xl lg:text-5xl lg:col-span-2">
             Who we <span className="text-[#FF5F2D]">work with</span>
           </h2>
 
-          <div className="md:w-full">
+          <div className="lg:col-start-3 lg:w-full">
             <span className="text-sm font-semibold uppercase tracking-wider text-[#FF5F2D]">
               Who We Serve
             </span>
-            <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-8">
+            <div className="mt-3 max-w-md sm:max-w-lg">
               <p className="text-base leading-relaxed text-gray-600 sm:text-lg">
                 From fast-growing businesses to early-stage start-ups, we are
-                committed to building a community of trust. We assist
-                companies that have anywhere from 10 to 2,000
-              </p>
-              <p className="text-base leading-relaxed text-gray-600 sm:text-lg">
-                employees, across all markets. Our Principal&apos;s experience
-                has spanned a variety of industries, including software and
-                the life sciences.
+                committed to building a community of trust. We partner with
+                companies across every industry.
               </p>
             </div>
           </div>

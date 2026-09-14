@@ -100,139 +100,13 @@ function GrowthIcon({ className = "" }) {
   );
 }
 
-function CodeIcon({ className = "" }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M8 6L2 12l6 6M16 6l6 6-6 6M13 4l-2 16"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function MegaphoneIcon({ className = "" }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M3 11v2a2 2 0 002 2h1l3.5 5v-16L6 9H5a2 2 0 00-2 2z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M14 7a5 5 0 010 10M18 4a9 9 0 010 16"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function SearchIcon({ className = "" }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <circle
-        cx="11"
-        cy="11"
-        r="7"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-      <path
-        d="M21 21l-4.35-4.35"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function PaletteIcon({ className = "" }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M12 3a9 9 0 000 18c1.1 0 2-.9 2-2 0-.53-.21-1-.55-1.36-.34-.36-.55-.85-.55-1.39 0-1.1.9-2 2-2h2.35A4.75 4.75 0 0021 9.75C21 5.9 16.97 3 12 3z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinejoin="round"
-      />
-      <circle cx="7.5" cy="10.5" r="1.15" fill="currentColor" />
-      <circle cx="11" cy="7" r="1.15" fill="currentColor" />
-      <circle cx="15.5" cy="8.5" r="1.15" fill="currentColor" />
-    </svg>
-  );
-}
-
-// Positioned by angle (degrees, 0 = right, counter-clockwise) and radius
-// (% of the globe box) so every badge sits right on the dashed orbit ring
-// at every breakpoint, since both scale together with the box itself.
-const ORBIT_RADIUS = 58;
-
-const floatingBadges = [
-  { label: "Digital Marketing", icon: MegaphoneIcon, angle: 25, delay: "0s" },
-  { label: "Web Development", icon: CodeIcon, angle: -25, delay: "0.6s" },
-  { label: "SEO Optimization", icon: SearchIcon, angle: -68, delay: "1.2s" },
-  { label: "UI/UX Design", icon: PaletteIcon, angle: 68, delay: "1.8s" },
-];
-
-function FloatingBadge({ label, icon: Icon, angle, delay = "0s" }) {
-  const rad = (angle * Math.PI) / 180;
-  const left = 50 + ORBIT_RADIUS * Math.cos(rad);
-  const top = 50 - ORBIT_RADIUS * Math.sin(rad);
-
-  return (
-    <div
-      className="absolute z-20 flex items-center gap-0 sm:gap-2 xl:gap-0 2xl:gap-2 rounded-full bg-white/90 backdrop-blur-md border border-gray-200 shadow-sm p-1.5 sm:px-3.5 sm:py-2 xl:p-1.5 2xl:px-3.5 2xl:py-2 text-[11px] sm:text-xs font-medium text-gray-700 whitespace-nowrap animate-float"
-      style={{
-        left: `${left}%`,
-        top: `${top}%`,
-        transform: "translate(-50%, -50%)",
-        animationDelay: delay,
-      }}
-    >
-      <span className="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 xl:w-5 xl:h-5 2xl:w-6 2xl:h-6 rounded-full bg-orange-50 text-[#FF5F2D] shrink-0">
-        <Icon className="w-3 h-3 sm:w-3.5 sm:h-3.5 xl:w-3 xl:h-3 2xl:w-3.5 2xl:h-3.5" />
-      </span>
-      <span className="hidden sm:inline xl:hidden 2xl:inline">{label}</span>
-    </div>
-  );
-}
-
 export default function LandingPage() {
   return (
     <section className="relative w-full overflow-hidden bg-white text-gray-600">
       <div className="relative grid grid-cols-1 w-full xl:flex xl:flex-row">
         {/* Content row */}
         <div className="relative z-10 xl:order-1 flex w-full flex-col justify-center px-6 pb-12 pt-24 sm:px-10 sm:pb-16 sm:pt-28 md:pt-32 lg:px-14 lg:pt-36 lg:pb-16 xl:h-full xl:pt-40">
-          <div className="max-w-xl lg:max-w-6xl">
+          <div className="max-w-xl md:max-w-none lg:max-w-6xl">
             <div className="relative">
               <span className="absolute -top-7 left-1 text-sm text-gray-500 italic hidden sm:block">
                 We are
@@ -277,8 +151,8 @@ export default function LandingPage() {
               </div>
 
               {/* Bottom floating cards */}
-              <div className="flex items-end gap-3 sm:gap-4 flex-wrap md:max-w-sm">
-                <div className="w-24 h-28 sm:w-32 sm:h-36 rounded-2xl overflow-hidden border border-gray-200 bg-black flex items-center justify-center p-4 sm:p-5 shrink-0">
+              <div className="flex w-full items-end gap-3 sm:gap-4 md:flex-nowrap flex-wrap lg:max-w-sm">
+                <div className="flex-1 h-28 sm:h-36 rounded-2xl overflow-hidden border border-gray-200 bg-black flex items-center justify-center p-4 sm:p-5">
                   <img
                     src="/Images/Logo.jpeg"
                     alt="Company logo"
@@ -286,7 +160,7 @@ export default function LandingPage() {
                   />
                 </div>
 
-                <div className="rounded-2xl bg-gray-50 backdrop-blur-md border border-gray-200 px-4 py-3.5 sm:px-5 sm:py-4 w-[calc(100%-6.5rem)] max-w-[210px] sm:w-56 sm:max-w-none md:w-72 xl:w-56 shadow-sm">
+                <div className="rounded-2xl bg-gray-50 backdrop-blur-md border border-gray-200 px-4 py-3.5 sm:px-5 sm:py-4 flex-[2] shadow-sm">
                   <span className="inline-flex items-center gap-1.5 text-xs bg-orange-50 rounded-full px-2.5 py-1 text-[#FF5F2D]">
                     <GrowthIcon className="w-3.5 h-3.5" />
                     Business Growth
@@ -305,20 +179,17 @@ export default function LandingPage() {
         </div>
 
         {/* Globe / visual row */}
-        <div className="relative xl:order-2 flex w-full items-center justify-center px-8 pb-16 pt-2 sm:px-10 sm:pb-20 lg:px-14 lg:pb-24 xl:absolute xl:inset-y-0 xl:right-0 xl:mr-16 xl:h-full xl:w-[46%] xl:min-w-[300px] xl:px-8 xl:py-0 xl:pt-0 xl:pb-0 2xl:px-10 xl:[mask-image:linear-gradient(90deg,transparent_0%,black_18%)] xl:[-webkit-mask-image:linear-gradient(90deg,transparent_0%,black_18%)]">
+        <div className="relative xl:order-2 flex w-full items-center justify-center px-8 pb-16 pt-2 sm:px-10 sm:pb-20 lg:px-14 lg:pb-24 xl:absolute xl:inset-y-0 xl:right-0 xl:mr-16 xl:h-full xl:w-[46%] xl:min-w-[300px] xl:px-8 xl:py-0 xl:pt-0 xl:pb-0 2xl:px-10">
           <div className="relative w-full max-w-[230px] sm:max-w-[300px] md:max-w-[340px] lg:max-w-[400px] xl:max-w-[440px] 2xl:max-w-[500px] aspect-square">
-            <Globe className="w-full h-full" />
+            <div className="absolute inset-0 xl:[mask-image:linear-gradient(90deg,transparent_0%,black_6%)] xl:[-webkit-mask-image:linear-gradient(90deg,transparent_0%,black_6%)]">
+              <Globe className="w-full h-full" />
+            </div>
 
             {/* Dashed orbit accent */}
             <span
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-[#FF5F2D]/30 animate-[spin_40s_linear_infinite]"
               style={{ width: "116%", height: "116%" }}
             />
-
-            {/* Floating service badges orbiting the globe */}
-            {floatingBadges.map((badge) => (
-              <FloatingBadge key={badge.label} {...badge} />
-            ))}
           </div>
         </div>
       </div>
