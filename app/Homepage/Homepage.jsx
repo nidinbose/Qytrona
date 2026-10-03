@@ -5,6 +5,7 @@ import LandingPage from "../Components/HomeComponents/LandingPage";
 import ServicesGrid from "../Components/HomeComponents/ServicesGrid";
 import WorldConnections from "../Components/HomeComponents/WorldConnections";
 import OurClients from "../Components/HomeComponents/OurClients";
+import Footer from "../Components/HomeComponents/Footer";
 
 export default function Homepage() {
   return (
@@ -14,6 +15,7 @@ export default function Homepage() {
       <OurClients/>
       <ServicesGrid/>
       <WorldConnections/>
+      <Footer/>
     </main>
   );
 }

@@ -164,6 +164,7 @@ function MenuToggle({ open, onClick }) {
 const solutionCards = [
   {
     title: "Website Development",
+    href: "/solutions/website-development",
     desc: "Modern, high-converting websites built for growth.",
     icon: "layout",
     theme: "dark",
@@ -171,6 +172,7 @@ const solutionCards = [
   },
   {
     title: "Digital Marketing",
+    href: "/solutions/digital-marketing",
     desc: "SEO, ads & social media that drive real growth.",
     icon: "megaphone",
     theme: "peach",
@@ -178,6 +180,7 @@ const solutionCards = [
   },
   {
     title: "Mobile Application Development",
+    href: "/solutions/mobile-app-development",
     desc: "Native & cross-platform apps built for scale.",
     icon: "phone",
     theme: "white",
@@ -185,6 +188,7 @@ const solutionCards = [
   },
   {
     title: "Search Engine Optimization",
+    href: "/solutions/seo",
     desc: "Data-driven SEO that grows your organic traffic.",
     icon: "search",
     theme: "peach",
@@ -193,23 +197,23 @@ const solutionCards = [
 ];
 
 const websiteIndustries = [
-  { label: "Real Estate", icon: "building" },
-  { label: "Education", icon: "cap" },
-  { label: "Healthcare", icon: "heart" },
-  { label: "Fintech", icon: "dollar" },
-  { label: "Media & Entertainment", icon: "media" },
-  { label: "Logistics", icon: "truck" },
-  { label: "Construction", icon: "construction" },
+  { label: "Real Estate", icon: "building", href: "/industries/real-estate" },
+  { label: "Education", icon: "cap", href: "/industries/education" },
+  { label: "Healthcare", icon: "heart", href: "/industries/healthcare" },
+  { label: "Fintech", icon: "dollar", href: "/industries/fintech" },
+  { label: "Media & Entertainment", icon: "media", href: "/industries/media-entertainment" },
+  { label: "Logistics", icon: "truck", href: "/industries/logistics" },
+  { label: "Construction", icon: "construction", href: "/industries/construction" },
 ];
 
 const webAppIndustries = [
-  { label: "Logistics", icon: "truck" },
-  { label: "Media & Entertainment", icon: "media" },
-  { label: "Real Estate", icon: "building" },
-  { label: "Construction", icon: "construction" },
-  { label: "Debate Academy", icon: "debate" },
-  { label: "Fintech", icon: "dollar" },
-  { label: "Healthcare", icon: "heart" },
+  { label: "Logistics", icon: "truck", href: "/industries/logistics" },
+  { label: "Media & Entertainment", icon: "media", href: "/industries/media-entertainment" },
+  { label: "Real Estate", icon: "building", href: "/industries/real-estate" },
+  { label: "Construction", icon: "construction", href: "/industries/construction" },
+  { label: "Debate Academy", icon: "debate", href: "/industries/debate-academy" },
+  { label: "Fintech", icon: "dollar", href: "/industries/fintech" },
+  { label: "Healthcare", icon: "heart", href: "/industries/healthcare" },
 ];
 
 const scheduleDays = [
@@ -221,14 +225,19 @@ const scheduleDays = [
 ];
 
 const portfolioLinks = [
-  { label: "Website Design", icon: "layout" },
-  { label: "Web Applications", icon: "code" },
-  { label: "Mobile Applications", icon: "phone" },
-  { label: "Case Studies", icon: "briefcase" },
-  { label: "View All Work", icon: "arrow" },
+  { label: "Website Design", icon: "layout", href: "/portfolio/website-design" },
+  { label: "Web Applications", icon: "code", href: "/portfolio/web-applications" },
+  { label: "Mobile Applications", icon: "phone", href: "/portfolio/mobile-applications" },
+  { label: "Case Studies", icon: "briefcase", href: "/portfolio/case-studies" },
+  { label: "View All Work", icon: "arrow", href: "/portfolio" },
 ];
 
-const companyLinks = ["About Us", "Careers", "Our Team", "Contact Us"];
+const companyLinks = [
+  { label: "About Us", icon: "building", href: "/about" },
+  { label: "Careers", icon: "briefcase", href: "/careers" },
+  { label: "Our Team", icon: "heart", href: "/our-team" },
+  { label: "Contact Us", icon: "headset", href: "/contact" },
+];
 
 const generalEnquiryContacts = [
   {
@@ -315,14 +324,14 @@ function IndustryColumn({ title, items, onNavigate }) {
       <ul className="space-y-3.5">
         {items.map((item) => (
           <li key={item.label}>
-            <a
-              href="#"
+            <Link
+              href={item.href}
               onClick={onNavigate}
               className="flex items-center gap-3 text-[15px] text-neutral-600 hover:text-orange-500 transition-colors"
             >
               <Icon name={item.icon} className="w-4.5 h-4.5 text-orange-500 shrink-0" />
               {item.label}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
@@ -363,14 +372,14 @@ function IndustriesMenu({ onNavigate }) {
           ))}
         </div>
 
-        <a
-          href="#contact"
+        <Link
+          href="/contact"
           onClick={onNavigate}
           className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 text-sm font-medium transition-colors"
         >
           Schedule A Call
           <Icon name="arrow" className="w-3.5 h-3.5" />
-        </a>
+        </Link>
       </div>
     </div>
   );
@@ -447,9 +456,9 @@ function SolutionsMenu({ onNavigate }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
       {solutionCards.map((card) => (
-        <a
+        <Link
           key={card.title}
-          href="#"
+          href={card.href}
           onClick={onNavigate}
           className={`group overflow-hidden flex flex-col transition-transform duration-300 ease-out hover:-translate-y-1.5 ${
             solutionCardThemes[card.theme].wrap
@@ -474,7 +483,7 @@ function SolutionsMenu({ onNavigate }) {
               </div>
             )}
           </div>
-        </a>
+        </Link>
       ))}
     </div>
   );
@@ -485,12 +494,12 @@ function SimpleMenu({ item, onNavigate }) {
     <div className="grid lg:grid-cols-[1.3fr_1fr] gap-10 items-start">
       <ul>
         {item.items.map((link) => {
-          const { label, icon } =
+          const { label, icon, href = "#" } =
             typeof link === "string" ? { label: link, icon: null } : link;
           return (
             <li key={label} className="border-b border-black/10">
-              <a
-                href="#"
+              <Link
+                href={href}
                 onClick={onNavigate}
                 className="group flex items-center justify-between py-4 text-lg sm:text-xl lg:text-2xl font-semibold text-[#0c0705]/80 hover:text-[#FF5F2D] transition-colors"
               >
@@ -507,7 +516,7 @@ function SimpleMenu({ item, onNavigate }) {
                   name="arrow"
                   className="w-6 h-6 text-[#FF5F2D] opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
                 />
-              </a>
+              </Link>
             </li>
           );
         })}
@@ -521,8 +530,8 @@ function SimpleMenu({ item, onNavigate }) {
         <p className="mt-4 text-2xl font-semibold text-[#0c0705] leading-snug">
           {item.blurb}
         </p>
-        <a
-          href="#contact"
+        <Link
+          href="/contact"
           onClick={onNavigate}
           className="mt-6 inline-flex items-center gap-3 rounded-full bg-orange-500 hover:bg-orange-600 transition-colors pl-5 pr-1.5 py-1.5 text-sm font-medium text-white"
         >
@@ -530,7 +539,7 @@ function SimpleMenu({ item, onNavigate }) {
           <span className="flex items-center justify-center w-7 h-7 rounded-full bg-white text-black">
             <Icon name="arrow" className="w-3.5 h-3.5" />
           </span>
-        </a>
+        </Link>
       </div>
     </div>
   );
@@ -852,11 +861,14 @@ export default function Navbar() {
 
       {/* mobile drawer */}
       <div
-        className={`lg:hidden fixed inset-x-0 top-20 bottom-0 z-50 w-full bg-white border-t border-black/10 overflow-y-auto transition-all duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] ${
+        className={`lg:hidden fixed inset-x-0 top-20 bottom-0 z-50 w-full bg-white border-t border-black/10 overflow-y-auto transition-[clip-path,opacity] duration-500 ease-[cubic-bezier(0.65,0,0.35,1)] ${
           mobileOpen
-            ? "translate-x-0 opacity-100 pointer-events-auto"
-            : "translate-x-full opacity-0 pointer-events-none"
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
+        // Wipe in from the right with clip-path rather than translating the
+        // drawer off-screen, which let phones pan the page sideways.
+        style={{ clipPath: mobileOpen ? "inset(0 0 0 0)" : "inset(0 0 0 100%)" }}
       >
         <ul className="px-4 py-3">
           {navItems.map((item, index) => {
@@ -905,14 +917,14 @@ export default function Navbar() {
                         {item.type === "simple" && (
                           <ul className="space-y-1">
                             {item.items.map((link) => {
-                              const { label, icon } =
+                              const { label, icon, href = "#" } =
                                 typeof link === "string"
                                   ? { label: link, icon: null }
                                   : link;
                               return (
                                 <li key={label}>
-                                  <a
-                                    href="#"
+                                  <Link
+                                    href={href}
                                     onClick={() => setMobileOpen(false)}
                                     className="flex items-center gap-3 px-3 py-2.5 text-lg text-black hover:text-[#FF5F2D] transition-colors"
                                   >
@@ -923,7 +935,7 @@ export default function Navbar() {
                                       />
                                     )}
                                     {label}
-                                  </a>
+                                  </Link>
                                 </li>
                               );
                             })}
@@ -938,14 +950,14 @@ export default function Navbar() {
                               )
                               .map((ind) => (
                                 <li key={ind.label}>
-                                  <a
-                                    href="#"
+                                  <Link
+                                    href={ind.href}
                                     onClick={() => setMobileOpen(false)}
                                     className="flex items-center gap-3 px-3 py-2.5 text-lg text-black hover:text-[#FF5F2D] transition-colors"
                                   >
                                     <Icon name={ind.icon} className="w-6 h-6 text-[#FF5F2D]" />
                                     {ind.label}
-                                  </a>
+                                  </Link>
                                 </li>
                               ))}
                           </ul>
@@ -954,14 +966,14 @@ export default function Navbar() {
                           <ul className="space-y-1">
                             {solutionCards.map((c) => (
                               <li key={c.title}>
-                                <a
-                                  href="#"
+                                <Link
+                                  href={c.href}
                                   onClick={() => setMobileOpen(false)}
                                   className="flex items-center gap-3 px-3 py-2.5 text-lg text-black hover:text-[#FF5F2D] transition-colors"
                                 >
                                   <Icon name={c.icon} className="w-6 h-6 text-[#FF5F2D]" />
                                   {c.title}
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>

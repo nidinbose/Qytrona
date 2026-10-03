@@ -68,3 +68,33 @@ body {
   animation: marquee-reverse 28s linear infinite;
 }
 
+
+/* Slide-in animations start off-screen; never let them cause sideways scroll.
+   Set on body only so it propagates to the viewport and sticky still works. */
+body {
+  overflow-x: hidden;
+}
+
+@supports (overflow-x: clip) {
+  body {
+    overflow-x: clip;
+  }
+}
+
+/* About > Our Story logo panel: square on phones, 4:3 on tablets,
+   stretches to match the text column on desktop. */
+.story-media {
+  aspect-ratio: 1 / 1;
+}
+@media (min-width: 768px) {
+  .story-media {
+    aspect-ratio: 4 / 3;
+  }
+}
+@media (min-width: 1024px) {
+  .story-media {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 420px;
+  }
+}

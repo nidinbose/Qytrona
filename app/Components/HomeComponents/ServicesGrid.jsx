@@ -360,9 +360,9 @@ export default function ServicesGrid() {
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+        <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
           {/* Visual panel */}
-          <div className="aspect-square w-full overflow-hidden rounded-[2rem] border border-black/5 bg-gray-50 shadow-sm lg:aspect-auto lg:h-full lg:sticky lg:top-24">
+          <div className="aspect-square w-full overflow-hidden rounded-[2rem] border border-black/5 bg-gray-50 shadow-sm md:aspect-[4/3] lg:sticky lg:top-24">
             <Visual />
           </div>
 
@@ -440,13 +440,6 @@ export default function ServicesGrid() {
                 ))}
               </div>
             </div>
-
-            {/* CTA */}
-            <button className="mt-8 flex h-24 w-24 items-center justify-center rounded-full border-2 border-[#0c0705]/15 text-center text-sm font-medium leading-tight text-[#0c0705] transition-colors hover:border-[#FF5F2D] hover:text-[#FF5F2D]">
-              Find Out
-              <br />
-              More
-            </button>
           </div>
         </div>
       </div>
