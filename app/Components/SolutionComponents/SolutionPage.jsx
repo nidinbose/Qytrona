@@ -136,7 +136,7 @@ export function FeatureCard({ f, index }) {
 export function ToolsMarquee({ tools }) {
   const loop = [...tools, ...tools, ...tools];
   return (
-    <div className="relative w-full overflow-hidden bg-[#0c0705] py-8 [mask-image:linear-gradient(90deg,transparent_0%,black_6%,black_94%,transparent_100%)]">
+    <div className="relative w-full overflow-hidden bg-[#0c0705] py-8">
       <div className="flex w-max animate-marquee items-center gap-4 hover:[animation-play-state:paused]">
         {loop.map((t, i) => (
           <span
@@ -337,7 +337,8 @@ export default function SolutionPage({ slug }) {
 
       <Reveal variant="scale">
         <CtaBanner
-          title={`Ready to start your ${s.short.toLowerCase()}`}
+          eyebrow={s.short}
+          title="Ready to start your"
           highlight="project?"
           text="Tell us about your goals and we'll get back within one business day with ideas and a clear quote."
           label="Get a Free Quote"

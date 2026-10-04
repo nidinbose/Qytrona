@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 /* ---------------------------------- icons ---------------------------------- */
@@ -26,6 +27,7 @@ const iconPaths = {
     </>
   ),
   heart: <path d="M12 20s-7-4.4-9.5-8.6C.7 8 2 4.5 5.4 3.8 7.7 3.3 9.8 4.6 12 7c2.2-2.4 4.3-3.7 6.6-3.2C22 4.5 23.3 8 21.5 11.4 19 15.6 12 20 12 20Z" />,
+  medical: <path d="M9 3.5h6v5.5h5.5v6H15v5.5H9V15H3.5V9H9V3.5Z" />,
   dollar: (
     <>
       <circle cx="12" cy="12" r="9" />
@@ -199,7 +201,7 @@ const solutionCards = [
 const websiteIndustries = [
   { label: "Real Estate", icon: "building", href: "/industries/real-estate" },
   { label: "Education", icon: "cap", href: "/industries/education" },
-  { label: "Healthcare", icon: "heart", href: "/industries/healthcare" },
+  { label: "Healthcare", icon: "medical", href: "/industries/healthcare" },
   { label: "Fintech", icon: "dollar", href: "/industries/fintech" },
   { label: "Media & Entertainment", icon: "media", href: "/industries/media-entertainment" },
   { label: "Logistics", icon: "truck", href: "/industries/logistics" },
@@ -213,7 +215,7 @@ const webAppIndustries = [
   { label: "Construction", icon: "construction", href: "/industries/construction" },
   { label: "Debate Academy", icon: "debate", href: "/industries/debate-academy" },
   { label: "Fintech", icon: "dollar", href: "/industries/fintech" },
-  { label: "Healthcare", icon: "heart", href: "/industries/healthcare" },
+  { label: "Healthcare", icon: "medical", href: "/industries/healthcare" },
 ];
 
 const scheduleDays = [
@@ -244,20 +246,28 @@ const generalEnquiryContacts = [
     name: "Qytrona Technologies",
     label: "SEO & General Enquiry",
     desc: "Consultation & other questions",
-    image: "/Images/Logo.jpeg",
-    number: "919074603243",
-    display: "+91 90746 03243",
+    image: "/Images/Logo.png",
+    number: "918089913696",
+    display: "+91 80899 13696",
   },
 ];
 
 const consultationContacts = [
   {
-    name: "Abhijith",
+    name: "Aseem",
+    label: "Project Lead",
+    desc: "New projects & planning",
+    image: "/Images/Aseem.jpeg",
+    number: "918089913696",
+    display: "+91 80899 13696",
+  },
+  {
+    name: "Abijith",
     label: "Digital Marketing",
     desc: "SEO, ads & social media",
     image: "/Images/lg1.png",
-    number: "919074603243",
-    display: "+91 90746 03243",
+    number: "918891883243",
+    display: "+91 88918 83243",
   },
   {
     name: "Nidinbose",
@@ -271,6 +281,7 @@ const consultationContacts = [
 
 const navItems = [
   { key: "solutions", label: "Solutions", type: "solutions" },
+  { key: "industries", label: "Industries", type: "industries" },
   {
     key: "portfolio",
     label: "Portfolio",
@@ -278,9 +289,6 @@ const navItems = [
     items: portfolioLinks,
     blurb: "A look at the products, platforms and brands we've shipped.",
   },
-  { key: "industries", label: "Industries", type: "industries" },
-  { key: "blogs", label: "Blogs", type: "link" },
-  { key: "testimonials", label: "Testimonials", type: "link" },
   {
     key: "company",
     label: "Company",
@@ -288,23 +296,40 @@ const navItems = [
     items: companyLinks,
     blurb: "Get to know the team building Qytrona and the story behind it.",
   },
+  { key: "blogs", label: "Blogs", type: "link", href: "/blogs" },
+  { key: "testimonials", label: "Testimonials", type: "link", href: "/testimonials" },
 ];
 
 /* ------------------------------- sub components ------------------------------ */
 
+// Brand mark: ring with a rounded orange pointer; the mask cuts a gap in the ring around the pointer.
+const LOGO_POINTER = "302,292 422,346 372,412";
+
 function Logo({ solid }) {
+  const maskId = `logo-gap-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
   return (
-    <Link href="/" className="flex items-center gap-0.5 shrink-0">
-      <svg viewBox="0 0 100 100" className="w-14 h-14" aria-hidden="true">
+    <Link href="/" className="flex items-center gap-2 shrink-0">
+      <svg viewBox="40 35 430 430" className="w-9 h-9" aria-hidden="true">
+        <defs>
+          <mask id={maskId}>
+            <rect x="0" y="0" width="500" height="500" fill="white" />
+            <polygon points={LOGO_POINTER} fill="black" stroke="black" strokeWidth="98" strokeLinejoin="round" />
+          </mask>
+        </defs>
         <path
           fillRule="evenodd"
-          clipRule="evenodd"
-          d="M75,47 A26,26 0 1,1 23,47 A26,26 0 1,1 75,47 Z M66,47 A17,17 0 1,1 32,47 A17,17 0 1,1 66,47 Z"
+          mask={`url(#${maskId})`}
+          d="M434,240 A192,192 0 1,1 50,240 A192,192 0 1,1 434,240 Z M352,240 A110,110 0 1,1 132,240 A110,110 0 1,1 352,240 Z"
           className={`transition-colors duration-300 ${
             solid ? "fill-[#0c0705]" : "fill-white"
           }`}
         />
-        <polygon points="41,46 56,46 78,74 63,74" className="fill-orange-500" />
+        <polygon
+          points={LOGO_POINTER}
+          strokeWidth="72"
+          strokeLinejoin="round"
+          className="fill-[#FF6B00] stroke-[#FF6B00]"
+        />
       </svg>
       <span
         className={`text-2xl font-semibold tracking-tight transition-colors duration-300 ${
@@ -668,6 +693,7 @@ function WhatsAppButton() {
 /* --------------------------------- main navbar -------------------------------- */
 
 export default function Navbar() {
+  const router = useRouter();
   const [openMenu, setOpenMenu] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState(null);
@@ -782,7 +808,7 @@ export default function Navbar() {
                     }
                   >
                     <a
-                      href={hasDropdown ? undefined : "#"}
+                      href={hasDropdown ? undefined : item.href || "#"}
                       className={`flex items-center gap-1.5 py-2 text-[15px] font-medium border-b-2 transition-colors cursor-pointer ${
                         isOpen
                           ? "text-[#FF5F2D] border-[#FF5F2D]"
@@ -889,11 +915,14 @@ export default function Navbar() {
               >
                 <button
                   className="w-full flex items-center justify-between py-3.5 text-xl font-medium text-black hover:text-[#FF5F2D] transition-colors"
-                  onClick={() =>
-                    hasDropdown
-                      ? setMobileExpanded(expanded ? null : item.key)
-                      : setMobileOpen(false)
-                  }
+                  onClick={() => {
+                    if (hasDropdown) {
+                      setMobileExpanded(expanded ? null : item.key);
+                      return;
+                    }
+                    setMobileOpen(false);
+                    if (item.href) router.push(item.href);
+                  }}
                 >
                   {item.label}
                   {hasDropdown && (

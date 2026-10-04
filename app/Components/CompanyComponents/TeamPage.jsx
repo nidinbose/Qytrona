@@ -17,15 +17,16 @@ const leadership = [
     name: "Aseem",
     role: "Project Lead",
     bio: "Keeps every project on track, from first requirements to final delivery, working closely with clients and the team.",
-    image: null,
+    image: "/Images/Aseem.jpeg",
+    number: "918089913696",
     skills: ["Project Management", "Client Success", "Planning"],
   },
   {
-    name: "Abhijith",
+    name: "Abijith",
     role: "Digital Marketing Lead",
     bio: "Runs SEO, paid ads and social campaigns that turn traffic into qualified leads.",
     image: "/Images/lg1.png",
-    number: "919074603243",
+    number: "918891883243",
     skills: ["SEO", "Paid Ads", "Social Media"],
   },
   {
@@ -332,34 +333,34 @@ function MemberCard({ member, index }) {
       <div className="pointer-events-none absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/10 transition-all duration-500 group-hover:ring-[#FF5F2D]/50" />
 
       {/* top row */}
-      <div className="absolute inset-x-5 top-5 flex items-start justify-between">
-        <span className="font-mono text-xs tracking-[0.2em] text-white/70">
+      <div className="absolute inset-x-4 top-4 flex items-start justify-between sm:inset-x-5 sm:top-5">
+        <span className="font-mono text-[10px] tracking-[0.2em] text-white/70 sm:text-xs">
           {String(index + 1).padStart(2, "0")}
         </span>
-        <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white backdrop-blur-md">
+        <span className="rounded-full border border-white/20 bg-white/10 px-2.5 py-0.5 text-[11px] font-medium text-white backdrop-blur-md sm:px-3 sm:py-1 sm:text-xs">
           {member.role}
         </span>
       </div>
 
       {/* bottom content */}
-      <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
+      <div className="absolute inset-x-0 bottom-0 p-5 sm:p-7">
         <span className="block h-[2px] w-10 bg-[#FF5F2D] transition-all duration-500 group-hover:w-20" />
-        <h3 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+        <h3 className="mt-3 text-2xl font-semibold tracking-tight text-white sm:mt-4 sm:text-4xl">
           {member.name}
         </h3>
 
         {/* revealed on hover for desktop, always visible on touch */}
         <div className="grid grid-rows-[1fr] transition-all duration-500 ease-out lg:grid-rows-[0fr] lg:opacity-0 lg:group-hover:grid-rows-[1fr] lg:group-hover:opacity-100">
           <div className="overflow-hidden">
-            <p className="mt-3 text-sm leading-relaxed text-white/70">
+            <p className="mt-2 text-xs leading-relaxed text-white/70 sm:mt-3 sm:text-sm">
               {member.bio}
             </p>
 
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-3 flex flex-wrap gap-1.5 sm:mt-4 sm:gap-2">
               {member.skills.map((s) => (
                 <span
                   key={s}
-                  className="rounded-full border border-white/15 bg-white/5 px-2.5 py-1 text-xs text-white/80 backdrop-blur"
+                  className="rounded-full border border-white/15 bg-white/5 px-2 py-0.5 text-[11px] text-white/80 backdrop-blur sm:px-2.5 sm:py-1 sm:text-xs"
                 >
                   {s}
                 </span>
@@ -371,11 +372,11 @@ function MemberCard({ member, index }) {
                 href={`https://wa.me/${member.number}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-5 inline-flex items-center gap-3 rounded-full bg-[#FF5F2D] py-1.5 pl-4 pr-1.5 text-sm font-medium text-white transition-colors hover:bg-[#e6541f]"
+                className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#FF5F2D] py-1 pl-3.5 pr-1 text-xs font-medium sm:mt-5 sm:gap-3 sm:py-1.5 sm:pl-4 sm:pr-1.5 sm:text-sm text-white transition-colors hover:bg-[#e6541f]"
               >
                 Chat with {member.name}
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-black text-[#FF5F2D]">
-                  <Icon name="chat" className="h-3.5 w-3.5" />
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-black text-[#FF5F2D] sm:h-7 sm:w-7">
+                  <Icon name="chat" className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                 </span>
               </a>
             )}

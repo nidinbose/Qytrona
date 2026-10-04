@@ -37,6 +37,7 @@ const iconPaths = {
     </>
   ),
   heart: <path d="M12 20s-7-4.4-9.5-8.6C.7 8 2 4.5 5.4 3.8 7.7 3.3 9.8 4.6 12 7c2.2-2.4 4.3-3.7 6.6-3.2C22 4.5 23.3 8 21.5 11.4 19 15.6 12 20 12 20Z" />,
+  medical: <path d="M9 3.5h6v5.5h5.5v6H15v5.5H9V15H3.5V9H9V3.5Z" />,
   laptop: (
     <>
       <rect x="4" y="5" width="16" height="11" rx="1.5" />
@@ -481,7 +482,20 @@ export function StatRow({ stats }) {
   );
 }
 
+const ctaSteps = [
+  { icon: "chat", title: "Share your goals", desc: "A quick call or WhatsApp chat about what you need." },
+  { icon: "spark", title: "Get ideas & a clear quote", desc: "Within one business day — no hidden costs." },
+  { icon: "rocket", title: "Kick off your project", desc: "We plan, build and launch with you every step." },
+];
+
+const ctaStats = [
+  { value: "120+", label: "Clients" },
+  { value: "60+", label: "Projects" },
+  { value: "24h", label: "Reply time" },
+];
+
 export function CtaBanner({
+  eyebrow = "Business Growth",
   title = "Ready to build something",
   highlight = "great?",
   text = "Tell us about your project and we'll get back within one business day.",
@@ -490,47 +504,82 @@ export function CtaBanner({
 }) {
   return (
     <Section className="bg-white">
-      <div
-        className="relative flex flex-col justify-center overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#FF5F2D] via-[#ff6a3a] to-[#e6481a] px-8 sm:px-14"
-        // Height set inline so it scales smoothly with the viewport (~360px on phones, up to 520px on desktop).
-        style={{
-          minHeight: "clamp(360px, 38vw, 520px)",
-          paddingBlock: "clamp(4rem, 7vw, 7rem)",
-        }}
-      >
-        {/* subtle dot texture + decorative rings */}
-        <div className="pointer-events-none absolute inset-0 opacity-[0.12] [background-image:radial-gradient(#ffffff_1px,transparent_1px)] [background-size:20px_20px]" />
-        <span className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full border border-dashed border-white/40 animate-[spin_40s_linear_infinite]" />
-        <span className="pointer-events-none absolute -right-8 -top-8 h-44 w-44 rounded-full bg-white/20 blur-2xl" />
-        <span className="pointer-events-none absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-[#0c0705]/15 blur-3xl" />
+      <div className="relative overflow-hidden rounded-[2rem] bg-[#0c0705] px-6 py-12 sm:px-12 sm:py-16 lg:px-16 lg:py-20">
+        {/* grid texture fading out from the top-left, plus warm glows */}
+        <div className="pointer-events-none absolute inset-0 opacity-[0.07] [background-image:linear-gradient(#ffffff_1px,transparent_1px),linear-gradient(90deg,#ffffff_1px,transparent_1px)] [background-size:44px_44px] [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_70%)]" />
+        <span className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full bg-[#FF5F2D]/30 blur-3xl" />
+        <span className="pointer-events-none absolute -bottom-32 right-1/4 h-72 w-72 rounded-full bg-[#FF5F2D]/15 blur-3xl" />
+        <span className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full border border-dashed border-white/15 animate-[spin_40s_linear_infinite]" />
 
-        <div className="relative grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-end lg:gap-16">
-          <div className="lg:col-span-2">
-            <span className="inline-flex items-center gap-1.5 text-xs bg-white/15 border border-white/25 backdrop-blur rounded-full px-2.5 py-1 text-white">
-              <Icon name="growth" className="w-3.5 h-3.5" />
-              Business Growth
-            </span>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
-              {title}{" "}
-              <span className="relative inline-block">
-                {highlight}
-                <span className="absolute -bottom-1 left-0 h-[3px] w-full rounded-full bg-white/70" />
-              </span>
-            </h2>
-          </div>
+        <div className="relative grid grid-cols-1 gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16">
+          {/* pitch */}
           <div>
-            <p className="text-base leading-relaxed text-white/85 sm:text-lg">
-              {text}
-            </p>
-            <Link
-              href={href}
-              className="group mt-6 inline-flex items-center gap-3 rounded-full bg-white pl-6 pr-1.5 py-1.5 font-medium text-[#0c0705] shadow-lg shadow-black/10 transition-colors hover:bg-[#0c0705] hover:text-white"
-            >
-              {label}
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FF5F2D] text-white transition-transform duration-300 group-hover:translate-x-0.5">
-                <Icon name="arrow" className="h-4 w-4" />
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-medium uppercase tracking-widest text-white/80">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF5F2D] opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF5F2D]" />
               </span>
-            </Link>
+              {eyebrow}
+            </span>
+
+            <h2 className="mt-6 text-4xl font-semibold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
+              {title} <span className="text-[#FF5F2D]">{highlight}</span>
+            </h2>
+
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg">{text}</p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Link
+                href={href}
+                className="group inline-flex items-center gap-3 rounded-full bg-[#FF5F2D] py-1.5 pl-6 pr-1.5 font-medium text-white shadow-lg shadow-[#FF5F2D]/25 transition-colors hover:bg-white hover:text-[#0c0705]"
+              >
+                {label}
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#FF5F2D] transition-all duration-300 group-hover:translate-x-0.5 group-hover:bg-[#FF5F2D] group-hover:text-white">
+                  <Icon name="arrow" className="h-4 w-4" />
+                </span>
+              </Link>
+              <a
+                href="https://wa.me/918089913696"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 font-medium text-white transition-colors hover:border-[#FF5F2D] hover:text-[#FF5F2D]"
+              >
+                <Icon name="chat" className="h-4 w-4" />
+                Chat on WhatsApp
+              </a>
+            </div>
+
+            <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/10 pt-8">
+              {ctaStats.map((s) => (
+                <div key={s.label}>
+                  <dt className="sr-only">{s.label}</dt>
+                  <dd className="text-2xl font-semibold text-white sm:text-3xl">{s.value}</dd>
+                  <dd className="mt-1 text-xs uppercase tracking-widest text-white/50">{s.label}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          {/* what happens next */}
+          <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur sm:p-8">
+            <p className="text-xs font-semibold uppercase tracking-widest text-white/50">What happens next</p>
+            <ol className="mt-6 space-y-6">
+              {ctaSteps.map((step, i) => (
+                <li key={step.title} className="relative flex gap-4">
+                  {i < ctaSteps.length - 1 && (
+                    <span className="absolute left-6 top-12 h-[calc(100%-0.75rem)] w-px bg-gradient-to-b from-[#FF5F2D]/60 to-transparent" />
+                  )}
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#FF5F2D]/15 text-[#FF5F2D] ring-1 ring-[#FF5F2D]/30">
+                    <Icon name={step.icon} className="h-5 w-5" />
+                  </span>
+                  <div className="pt-1">
+                    <p className="text-xs font-medium text-[#FF5F2D]">Step {String(i + 1).padStart(2, "0")}</p>
+                    <p className="mt-1 text-lg font-semibold text-white">{step.title}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-white/60">{step.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
       </div>
@@ -630,11 +679,19 @@ export function FaqItem({ item, open, onToggle, index }) {
         className="flex w-full items-center gap-4 p-5 text-left sm:p-6"
       >
         <span
-          className={`font-mono text-xs transition-colors duration-300 ${
-            open ? "text-[#FF5F2D]" : "text-gray-400"
+          className={`relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl text-sm font-bold tabular-nums transition-all duration-500 ${
+            open
+              ? "-rotate-6 bg-gradient-to-br from-[#FF5F2D] to-[#e6481a] text-white shadow-lg shadow-[#FF5F2D]/40"
+              : "border border-gray-200 bg-white text-[#0c0705]/40 group-hover:border-[#FF5F2D]/40 group-hover:text-[#FF5F2D]"
           }`}
         >
-          {String(index + 1).padStart(2, "0")}
+          {/* corner notch accent */}
+          <span
+            className={`absolute -right-2 -top-2 h-4 w-4 rotate-45 transition-colors duration-500 ${
+              open ? "bg-white/25" : "bg-[#FF5F2D]/15"
+            }`}
+          />
+          <span className="relative">{String(index + 1).padStart(2, "0")}</span>
         </span>
         <span className="flex-1 text-base font-semibold text-[#0c0705] sm:text-lg">
           {item.q}
@@ -658,7 +715,7 @@ export function FaqItem({ item, open, onToggle, index }) {
         }`}
       >
         <div className="overflow-hidden">
-          <p className="px-5 pb-6 pl-[3.25rem] leading-relaxed text-gray-600 sm:px-6 sm:pl-[3.75rem]">
+          <p className="px-5 pb-6 pl-[4.75rem] leading-relaxed text-gray-600 sm:px-6 sm:pl-[5rem]">
             {item.a}
           </p>
         </div>

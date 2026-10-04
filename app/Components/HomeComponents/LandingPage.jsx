@@ -154,7 +154,7 @@ export default function LandingPage() {
               <div className="flex w-full items-end gap-3 sm:gap-4 md:flex-nowrap flex-wrap lg:max-w-sm">
                 <div className="flex-1 h-28 sm:h-36 rounded-2xl overflow-hidden border border-gray-200 bg-black flex items-center justify-center p-4 sm:p-5">
                   <img
-                    src="/Images/Logo.jpeg"
+                    src="/Images/Logo.png"
                     alt="Company logo"
                     className="h-full w-full object-contain"
                   />

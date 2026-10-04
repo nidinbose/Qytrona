@@ -188,7 +188,7 @@ export default function AboutPage() {
           <Reveal variant="left" duration={1000} className="h-full">
             <div className="story-media relative w-full overflow-hidden rounded-[2rem] border border-black/5 bg-black">
               <img
-                src="/Images/Logo.jpeg"
+                src="/Images/Logo.png"
                 alt="Qytrona Technologies"
                 className="absolute inset-0 h-full w-full object-contain p-10"
               />

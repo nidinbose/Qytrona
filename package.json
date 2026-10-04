@@ -6,13 +6,19 @@
     "dev": "next dev -p 3005",
     "build": "next build",
     "start": "next start -p 3005",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed:admin": "node --env-file=.env.local scripts/seed-admin.mjs",
+    "seed:posts": "node --env-file=.env.local scripts/seed-posts.mjs"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "dotted-map": "^3.1.0",
+    "jose": "^6.2.12",
+    "mongoose": "^9.10.4",
     "next": "16.3.5",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

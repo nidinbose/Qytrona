@@ -16,13 +16,13 @@ const services = [
 
 const budgets = ["< ₹50k", "₹50k – ₹2L", "₹2L – ₹5L", "₹5L+"];
 
-const enquiryNumber = "919074603243";
+const enquiryNumber = "918089913696";
 
 const methods = [
   {
     icon: "chat",
     title: "WhatsApp Us",
-    value: "+91 90746 03243",
+    value: "+91 80899 13696",
     note: "Fastest reply",
     href: `https://wa.me/${enquiryNumber}`,
     external: true,
@@ -30,9 +30,9 @@ const methods = [
   {
     icon: "phone",
     title: "Call Us",
-    value: "+91 90746 03243",
+    value: "+91 80899 13696",
     note: "Mon – Sat",
-    href: "tel:+919074603243",
+    href: "tel:+918089913696",
   },
   {
     icon: "clock",
@@ -52,14 +52,20 @@ const contacts = [
   {
     name: "Qytrona Technologies",
     label: "SEO & General Enquiry",
-    image: "/Images/Logo.jpeg",
-    number: "919074603243",
+    image: "/Images/Logo.png",
+    number: "918089913696",
   },
   {
-    name: "Abhijith",
+    name: "Aseem",
+    label: "Project Lead",
+    image: "/Images/Aseem.jpeg",
+    number: "918089913696",
+  },
+  {
+    name: "Abijith",
     label: "Digital Marketing",
     image: "/Images/lg1.png",
-    number: "919074603243",
+    number: "918891883243",
   },
   {
     name: "Nidinbose",

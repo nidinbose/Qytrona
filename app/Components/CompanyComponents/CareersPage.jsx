@@ -117,7 +117,7 @@ const hiringSteps = [
   { step: "04", icon: "briefcase", title: "Offer", desc: "Meet the team, get your offer and start building with us." },
 ];
 
-const applyNumber = "919074603243";
+const applyNumber = "918089913696";
 
 function applyLink(role) {
   return `https://wa.me/${applyNumber}?text=${encodeURIComponent(

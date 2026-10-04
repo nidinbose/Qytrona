@@ -95,7 +95,7 @@ export const industries = [
   {
     slug: "healthcare",
     name: "Healthcare",
-    icon: "heart",
+    icon: "medical",
     tagline: "Patient-friendly websites, booking and health apps.",
     title: "Better care through",
     highlight: "technology",

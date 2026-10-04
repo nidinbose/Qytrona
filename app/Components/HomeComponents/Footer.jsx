@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 
 /* ---------------------------------- icons ---------------------------------- */
@@ -126,13 +127,13 @@ const contactBlocks = [
     title: "INDIA",
     flag: true,
     lines: ["Qytrona Technologies", "Kerala, India", "Serving clients worldwide"],
-    phone: { display: "+91 90746 03243", href: "tel:+919074603243" },
+    phone: { display: "+91 80899 13696", href: "tel:+918089913696" },
   },
   {
     title: "GENERAL ENQUIRY",
     icon: "chat",
     lines: ["SEO, consultation &", "all other questions"],
-    phone: { display: "+91 90746 03243", href: "https://wa.me/919074603243" },
+    phone: { display: "+91 80899 13696", href: "https://wa.me/918089913696" },
   },
   {
     title: "WEB & SOFTWARE",
@@ -143,8 +144,8 @@ const contactBlocks = [
   {
     title: "DIGITAL MARKETING",
     icon: "megaphone",
-    lines: ["SEO, ads & social media", "Abhijith"],
-    phone: { display: "+91 90746 03243", href: "https://wa.me/919074603243" },
+    lines: ["SEO, ads & social media", "Abijith"],
+    phone: { display: "+91 88918 83243", href: "https://wa.me/918891883243" },
   },
 ];
 
@@ -156,8 +157,8 @@ const portfolioLinks = [
 ];
 
 const legalLinks = [
-  { label: "Privacy Policy", href: "#" },
-  { label: "Terms & Conditions", href: "#" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms & Conditions", href: "/terms-and-conditions" },
 ];
 
 /* --------------------------------- footer --------------------------------- */
@@ -263,9 +264,13 @@ export default function Footer() {
             <div className="mt-10 flex items-center gap-2">
               <Laurel />
               <div className="flex items-center gap-3">
-                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#FF5F2D] text-xl font-semibold text-white">
-                  Q
-                </span>
+                <Image
+                  src="/Images/Logowhite.png"
+                  alt="Qytrona Technologies logo"
+                  width={56}
+                  height={56}
+                  className="h-14 w-14 shrink-0 rounded-md object-contain"
+                />
                 <div className="leading-tight">
                   <p className="text-sm font-semibold uppercase tracking-wide">
                     Qytrona
