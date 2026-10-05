@@ -32,6 +32,7 @@ const clashDisplay = localFont({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  preload: false, // only used for small labels; keep it from competing with first paint
 });
 
 export const metadata = {

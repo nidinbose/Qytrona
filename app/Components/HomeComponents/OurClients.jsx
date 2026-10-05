@@ -39,6 +39,8 @@ function MarqueeRow({ logos, reverse }) {
             <img
               src={logo.src}
               alt={logo.name}
+              loading="lazy"
+              decoding="async"
               className="h-10 w-auto shrink-0 grayscale opacity-50 transition-all duration-300 hover:grayscale-0 hover:opacity-100 sm:h-12 lg:h-14"
             />
           </div>

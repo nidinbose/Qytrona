@@ -59,7 +59,7 @@ export default function Globe({ className = "" }) {
   const rotationRef = useRef(0);
 
   const [dotVectors, setDotVectors] = useState([]);
-  const staticRef = useRef(null);
+  const stillRef = useRef(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -99,6 +99,34 @@ export default function Globe({ className = "" }) {
       };
     });
   }, [indiaVec]);
+
+  // Light still frame (outline, arcs, city points at rotation 0) rendered inline with the HTML.
+  // Inline SVG isn't an LCP candidate, so the hero text stays the LCP element; the canvas takes over
+  // from this exact frame (adding the dots) once the page is idle.
+  const still = useMemo(() => {
+    const S = 1000;
+    const c = S / 2;
+    const r = c * 0.9;
+    const px = S / 400;
+    const pt = (v) => project(v, 0, c, c, r);
+    const f = (n) => Math.round(n);
+    const arcs = connectionData.map((conn) => {
+      let d = "";
+      let started = false;
+      for (const v of conn.arc) {
+        const p = pt(v);
+        if (p.z <= -0.02) {
+          started = false;
+          continue;
+        }
+        d += `${started ? "L" : "M"}${f(p.x)} ${f(p.y)}`;
+        started = true;
+      }
+      return d;
+    });
+    const cities = connectionData.map((conn) => pt(conn.vec)).filter((p) => p.z > 0);
+    return { S, c, r, px, arcs, cities, india: pt(indiaVec) };
+  }, [connectionData, indiaVec]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -249,8 +277,8 @@ export default function Globe({ className = "" }) {
     const onVisibility = () => (document.hidden || reduceMotion ? stop() : start());
     document.addEventListener("visibilitychange", onVisibility);
 
-    // The pre-rendered still (globe-static.svg) shows until the dots have loaded and the page is
-    // idle; then the canvas takes over from the same rotation-0 frame and starts spinning.
+    // The inline still frame shows until the dots have loaded and the page is idle; then the
+    // canvas takes over from the same rotation-0 frame and starts spinning.
     let idleId;
     const begin = () => {
       if (dotVectors.length === 0) return; // effect re-runs once the dots arrive
@@ -258,7 +286,7 @@ export default function Globe({ className = "" }) {
       idleId = idle(() => {
         ready = true;
         draw();
-        if (staticRef.current) staticRef.current.style.visibility = "hidden";
+        if (stillRef.current) stillRef.current.style.visibility = "hidden";
         if (!reduceMotion) start();
       });
     };
@@ -277,15 +305,21 @@ export default function Globe({ className = "" }) {
 
   return (
     <div className={`relative ${className}`}>
-      {/* eslint-disable-next-line @next/next/no-img-element -- static SVG first frame, painted with the HTML */}
-      <img
-        ref={staticRef}
-        src="/globe-static.svg"
-        alt=""
+      <svg
+        ref={stillRef}
+        viewBox={`0 0 ${still.S} ${still.S}`}
         aria-hidden="true"
-        fetchPriority="high"
-        className="pointer-events-none absolute inset-0 h-full w-full select-none"
-      />
+        className="pointer-events-none absolute inset-0 h-full w-full"
+      >
+        <circle cx={still.c} cy={still.c} r={still.r} fill="none" stroke="rgba(156,163,175,0.3)" strokeWidth={still.px} />
+        {still.arcs.map((d, i) => d && <path key={i} d={d} fill="none" stroke="rgba(255,95,45,0.55)" strokeWidth={1.1 * still.px} />)}
+        {still.cities.map((p, i) => (
+          <circle key={i} cx={Math.round(p.x)} cy={Math.round(p.y)} r={2.4 * still.px} fill="#FF5F2D" />
+        ))}
+        {still.india.z > 0 && (
+          <circle cx={Math.round(still.india.x)} cy={Math.round(still.india.y)} r={4.5 * still.px} fill="#FF5F2D" />
+        )}
+      </svg>
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
     </div>
   );
