@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { onFirstInteraction } from "./firstInteraction";
 
 // Dot positions ([lat, lng]) are generated into /public by scripts/generate-globe-dots.mjs and
 // fetched after first paint, so they don't weigh down the page's JavaScript.
@@ -63,7 +64,8 @@ export default function Globe({ className = "" }) {
 
   useEffect(() => {
     let cancelled = false;
-    fetch(DOTS_URL)
+    // Fetch the dots only once the visitor interacts, so they don't compete with first paint.
+    const cancelWait = onFirstInteraction(() => fetch(DOTS_URL)
       .then((r) => r.json())
       .then((points) => {
         if (cancelled) return;
@@ -75,9 +77,10 @@ export default function Globe({ className = "" }) {
           }))
         );
       })
-      .catch(() => {});
+      .catch(() => {}));
     return () => {
       cancelled = true;
+      cancelWait();
     };
   }, []);
 
@@ -243,7 +246,7 @@ export default function Globe({ className = "" }) {
     // ~30fps is plenty for a slow spin and halves the main-thread cost (rotation is time-based).
     const FRAME_MS = 1000 / 30;
     let last = 0;
-    let ready = false; // don't animate until the page has loaded and the browser is idle
+    let ready = false; // don't animate until the visitor has interacted and the browser is idle
 
     function frame(now) {
       if (now - last >= FRAME_MS) {
@@ -277,7 +280,7 @@ export default function Globe({ className = "" }) {
     const onVisibility = () => (document.hidden || reduceMotion ? stop() : start());
     document.addEventListener("visibilitychange", onVisibility);
 
-    // The inline still frame shows until the dots have loaded and the page is idle; then the
+    // The inline still frame shows until the visitor interacts and the dots have loaded; then the
     // canvas takes over from the same rotation-0 frame and starts spinning.
     let idleId;
     const begin = () => {

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Globe from "./Globe";
+import { onFirstInteraction } from "./firstInteraction";
 
 const flipPhrases = [
   "Website Development",
@@ -12,21 +13,20 @@ const flipPhrases = [
   "Custom Software Development",
 ];
 
-function FlipWord({ words, interval = 2600, initialDelay = 5000 }) {
+function FlipWord({ words, interval = 2600 }) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    // Hold the first phrase a little longer so the hero is stable while the page loads.
+    // Start flipping on the visitor's first interaction, so the hero is stable while the page loads.
     let id;
-    const first = setTimeout(() => {
-      setIndex((i) => (i + 1) % words.length);
+    const cancelWait = onFirstInteraction(() => {
       id = setInterval(() => setIndex((i) => (i + 1) % words.length), interval);
-    }, initialDelay);
+    });
     return () => {
-      clearTimeout(first);
+      cancelWait();
       clearInterval(id);
     };
-  }, [words.length, interval, initialDelay]);
+  }, [words.length, interval]);
 
   const longest = words.reduce((a, b) => (a.length > b.length ? a : b));
 
