@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useInView } from "../CompanyComponents/Shared";
 import Image from "next/image";
 
 function LayoutIcon({ className = "" }) {
@@ -345,12 +346,16 @@ export default function ServicesGrid() {
   const service = services[active];
   const { Visual } = service;
 
+  // Image only renders while the panel is on screen, so it slides up each time the section scrolls into view.
+  const [panelRef, inView] = useInView({ threshold: 0.3, rootMargin: "0px" });
+
   useEffect(() => {
+    if (!inView) return;
     const id = setInterval(() => {
       setActive((i) => (i + 1) % services.length);
-    }, 5000);
+    }, 2000);
     return () => clearInterval(id);
-  }, [active]);
+  }, [active, inView]);
 
   return (
     <section className="relative w-full overflow-hidden bg-white px-6 py-16 sm:px-10 sm:py-20 lg:px-14 lg:py-24">
@@ -369,14 +374,19 @@ export default function ServicesGrid() {
 
         <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-10 xl:grid-cols-2 xl:gap-16">
           {/* Visual panel */}
-          <div className="relative aspect-square w-full overflow-hidden rounded-[2rem] bg-white md:aspect-[4/3] lg:sticky lg:top-24">
+          <div
+            ref={panelRef}
+            className="relative aspect-square w-full overflow-hidden bg-white md:aspect-[4/3] lg:sticky lg:top-24"
+          >
             {/* keyed so each new image re-mounts and slides up from the bottom over the white panel */}
-            <div key={active} className="absolute inset-0 animate-slide-up-in">
-              <Visual />
-            </div>
+            {inView && (
+              <div key={active} className="absolute inset-0 animate-slide-up-in">
+                <Visual />
+              </div>
+            )}
             {/* preload the other tabs' images so they're ready before they slide in */}
             <div className="hidden" aria-hidden="true">
-              {services.map((s, i) => i !== active && <s.Visual key={s.tabLabel} />)}
+              {services.map((s, i) => (i !== active || !inView) && <s.Visual key={s.tabLabel} />)}
             </div>
           </div>
 

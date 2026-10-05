@@ -17,7 +17,7 @@ const stats = [
 
 function Stars({ className = "h-4 w-4" }) {
   return (
-    <div className="flex gap-0.5 text-[#FF5F2D]" aria-label="5 out of 5 stars">
+    <div className="flex gap-0.5 text-[#FF5F2D]" role="img" aria-label="5 out of 5 stars">
       {Array.from({ length: 5 }).map((_, i) => (
         <svg key={i} viewBox="0 0 24 24" fill="currentColor" className={className}>
           <path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9L12 2.8Z" />

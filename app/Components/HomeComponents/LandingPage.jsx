@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import Globe from "./Globe";
 
 const flipPhrases = [
@@ -153,9 +155,12 @@ export default function LandingPage() {
               {/* Bottom floating cards */}
               <div className="flex w-full items-end gap-3 sm:gap-4 md:flex-nowrap flex-wrap lg:max-w-sm">
                 <div className="flex-1 h-28 sm:h-36 rounded-2xl overflow-hidden border border-gray-200 bg-black flex items-center justify-center p-4 sm:p-5">
-                  <img
+                  <Image
                     src="/Images/Logo.png"
                     alt="Company logo"
+                    width={628}
+                    height={625}
+                    sizes="128px"
                     className="h-full w-full object-contain"
                   />
                 </div>
@@ -169,9 +174,13 @@ export default function LandingPage() {
                     567+
                   </p>
                   <p className="text-sm text-gray-500">Expert Solutions</p>
-                  <button className="mt-3 flex items-center justify-center w-9 h-9 rounded-full bg-orange-600 text-white hover:bg-orange-500 transition-colors">
+                  <Link
+                    href="/portfolio"
+                    aria-label="View our work"
+                    className="mt-3 flex items-center justify-center w-9 h-9 rounded-full bg-orange-600 text-white hover:bg-orange-500 transition-colors"
+                  >
                     <ArrowIcon className="w-4 h-4" />
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

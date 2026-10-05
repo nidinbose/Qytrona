@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  experimental: {
+    // Inline the (small, Tailwind) CSS into the HTML so it no longer blocks first render.
+    // Only applies to production builds.
+    inlineCss: true,
+  },
 };
 
 export default nextConfig;

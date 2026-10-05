@@ -122,7 +122,7 @@ function OrbitCard() {
 function ReasonCard({ reason, index, delay }) {
   return (
     <Reveal delay={delay} className="h-full">
-      <div className="group relative flex h-full flex-col overflow-hidden rounded-[2rem] border border-[#FF5F2D]/10 bg-[#fff7f3] p-7 transition-all duration-500 hover:-translate-y-1 hover:border-[#0c0705] hover:shadow-[0_24px_60px_-20px_rgba(12,7,5,0.55)]">
+      <div className="group relative flex h-full flex-col overflow-hidden rounded-[2rem] border border-[#FF5F2D]/10 bg-[#fff7f3] p-7 transition-all duration-500 hover:-translate-y-1 hover:border-transparent hover:shadow-[0_24px_60px_-20px_rgba(12,7,5,0.55)]">
         {/* dark fill that rises from the bottom on hover */}
         <span className="pointer-events-none absolute inset-0 translate-y-full rounded-t-[2rem] bg-[#0c0705] transition-[transform,border-radius] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 group-hover:rounded-t-none" />
         {/* oversized watermark icon */}
@@ -234,7 +234,7 @@ export function FeaturedWork() {
 
 function Stars() {
   return (
-    <div className="flex gap-0.5 text-[#FF5F2D]" aria-label="5 out of 5 stars">
+    <div className="flex gap-0.5 text-[#FF5F2D]" role="img" aria-label="5 out of 5 stars">
       {Array.from({ length: 5 }).map((_, i) => (
         <svg key={i} viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
           <path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9L12 2.8Z" />

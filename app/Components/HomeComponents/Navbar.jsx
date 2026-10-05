@@ -310,6 +310,11 @@ function Logo() {
   );
 }
 
+// Dropdown triggers render as <button> (so aria-expanded is valid); plain items stay links.
+function NavTrigger({ as: Tag, ...props }) {
+  return <Tag {...props} />;
+}
+
 function IndustryColumn({ title, items, onNavigate }) {
   return (
     <div className="rounded-2xl border border-black/10 bg-neutral-50 p-6 shadow-sm">
@@ -775,14 +780,21 @@ export default function Navbar() {
                       openMenuNow(hasDropdown ? item.key : null)
                     }
                   >
-                    <a
-                      href={hasDropdown ? undefined : item.href || "#"}
+                    <NavTrigger
+                      {...(hasDropdown
+                        ? {
+                            as: "button",
+                            type: "button",
+                            "aria-expanded": isOpen,
+                            "aria-haspopup": "true",
+                            onClick: () => openMenuNow(isOpen ? null : item.key),
+                          }
+                        : { as: "a", href: item.href || "#" })}
                       className={`flex items-center gap-1.5 py-2 text-[15px] font-medium border-b-2 transition-colors cursor-pointer ${
                         isOpen
                           ? "text-[#FF5F2D] border-[#FF5F2D]"
                           : "text-black border-transparent hover:text-[#FF5F2D]"
                       }`}
-                      aria-expanded={hasDropdown ? isOpen : undefined}
                     >
                       {item.label}
                       {hasDropdown && (
@@ -793,7 +805,7 @@ export default function Navbar() {
                           }`}
                         />
                       )}
-                    </a>
+                    </NavTrigger>
                   </li>
                 );
               })}
