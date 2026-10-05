@@ -55,7 +55,7 @@ export default function BlogCard({ post, compact = false }) {
       }`}
     >
       {/* inset image with category + meta chips */}
-      <div className={`relative overflow-hidden ${compact ? "aspect-[16/9] rounded-[1.1rem]" : "aspect-[4/3] rounded-[1.5rem]"}`}>
+      <div className={`relative overflow-hidden ${compact ? "aspect-[16/11] rounded-[1.1rem]" : "aspect-[4/3] rounded-[1.5rem]"}`}>
         <div className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-110">
           <BlogCover post={post} />
         </div>

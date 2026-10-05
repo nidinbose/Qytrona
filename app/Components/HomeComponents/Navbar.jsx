@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -302,42 +302,10 @@ const navItems = [
 
 /* ------------------------------- sub components ------------------------------ */
 
-// Brand mark: ring with a rounded orange pointer; the mask cuts a gap in the ring around the pointer.
-const LOGO_POINTER = "302,292 422,346 372,412";
-
-function Logo({ solid }) {
-  const maskId = `logo-gap-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
+function Logo() {
   return (
-    <Link href="/" className="flex items-center gap-2 shrink-0">
-      <svg viewBox="40 35 430 430" className="w-9 h-9" aria-hidden="true">
-        <defs>
-          <mask id={maskId}>
-            <rect x="0" y="0" width="500" height="500" fill="white" />
-            <polygon points={LOGO_POINTER} fill="black" stroke="black" strokeWidth="98" strokeLinejoin="round" />
-          </mask>
-        </defs>
-        <path
-          fillRule="evenodd"
-          mask={`url(#${maskId})`}
-          d="M434,240 A192,192 0 1,1 50,240 A192,192 0 1,1 434,240 Z M352,240 A110,110 0 1,1 132,240 A110,110 0 1,1 352,240 Z"
-          className={`transition-colors duration-300 ${
-            solid ? "fill-[#0c0705]" : "fill-white"
-          }`}
-        />
-        <polygon
-          points={LOGO_POINTER}
-          strokeWidth="72"
-          strokeLinejoin="round"
-          className="fill-[#FF6B00] stroke-[#FF6B00]"
-        />
-      </svg>
-      <span
-        className={`text-2xl font-semibold tracking-tight transition-colors duration-300 ${
-          solid ? "text-[#0c0705]" : "text-white"
-        }`}
-      >
-        Qytrona
-      </span>
+    <Link href="/" className="flex shrink-0 items-center" aria-label="Qytrona Technologies — home">
+      <Image src="/Images/QB.svg" alt="Qytrona" width={148} height={40} priority unoptimized className="h-10 w-auto" />
     </Link>
   );
 }
@@ -788,7 +756,7 @@ export default function Navbar() {
         }`}
       >
         <nav className="relative z-10 w-full pl-2 pr-6 sm:px-10 lg:px-14 h-20 md:h-24 flex items-center justify-between">
-          <Logo solid />
+          <Logo />
 
           <div className="hidden lg:flex items-center">
             <ul

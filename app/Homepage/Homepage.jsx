@@ -6,6 +6,7 @@ import ServicesGrid from "../Components/HomeComponents/ServicesGrid";
 import WorldConnections from "../Components/HomeComponents/WorldConnections";
 import OurClients from "../Components/HomeComponents/OurClients";
 import Footer from "../Components/HomeComponents/Footer";
+import SpeakToExperts from "../Components/HomeComponents/SpeakToExperts";
 import {
   FeaturedWork,
   HomeCta,
@@ -29,6 +30,7 @@ export default function Homepage({ posts = [] }) {
       <WorldConnections/>
       <LatestBlogs posts={posts}/>
       <TestimonialsStrip/>
+      <SpeakToExperts/>
       <HomeFaq/>
       <HomeCta/>
       <Footer/>

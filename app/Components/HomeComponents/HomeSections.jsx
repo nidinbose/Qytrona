@@ -6,13 +6,14 @@ import {
   CtaBanner,
   FaqItem,
   Icon,
+  LogoMark,
   ProcessTimeline,
   Reveal,
   Section,
   SectionHeader,
   useInView,
 } from "../CompanyComponents/Shared";
-import ProjectCard from "../PortfolioComponents/ProjectCard";
+import { FeaturedProjectCard } from "../PortfolioComponents/ProjectCard";
 import { projects } from "../PortfolioComponents/portfolioData";
 import BlogCard from "../BlogComponents/BlogCard";
 import { featured as featuredTestimonial, testimonials } from "../CompanyComponents/testimonialsData";
@@ -23,7 +24,7 @@ const reasons = [
   { icon: "bolt", tag: "Live in 2–4 weeks", title: "Fast turnaround", desc: "Clear timelines and weekly updates — most websites go live in 2 to 4 weeks." },
   { icon: "dollar", tag: "Fixed quote", title: "Transparent pricing", desc: "A fixed, itemised quote before we start. No hidden costs or surprise invoices." },
   { icon: "growth", tag: "SEO-ready", title: "Built to grow", desc: "SEO-ready, fast and mobile-first, so your site brings in real enquiries." },
-  { icon: "heart", tag: "Ongoing care", title: "Support after launch", desc: "We stay with you for updates, fixes and new features as you grow." },
+  { icon: "headset", tag: "Ongoing care", title: "Support after launch", desc: "We stay with you for updates, fixes and new features as you grow." },
 ];
 
 const orbitIcons = ["layout", "code", "megaphone", "search", "mobile", "gear"];
@@ -89,8 +90,8 @@ function OrbitCard() {
             );
           })}
         </div>
-        <span className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-3xl bg-[#FF5F2D] text-3xl font-semibold shadow-2xl shadow-[#FF5F2D]/40">
-          Q
+        <span className="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-3xl border border-white/15 bg-[#0c0705] shadow-2xl shadow-[#FF5F2D]/40">
+          <LogoMark className="h-12 w-12" ringClassName="fill-white" />
         </span>
       </div>
 
@@ -121,7 +122,9 @@ function OrbitCard() {
 function ReasonCard({ reason, index, delay }) {
   return (
     <Reveal delay={delay} className="h-full">
-      <div className="group relative flex h-full flex-col overflow-hidden rounded-[2rem] border border-[#FF5F2D]/10 bg-[#fff7f3] p-7 transition-all duration-500 hover:-translate-y-1 hover:border-[#0c0705] hover:bg-[#0c0705] hover:shadow-[0_24px_60px_-20px_rgba(12,7,5,0.55)]">
+      <div className="group relative flex h-full flex-col overflow-hidden rounded-[2rem] border border-[#FF5F2D]/10 bg-[#fff7f3] p-7 transition-all duration-500 hover:-translate-y-1 hover:border-[#0c0705] hover:shadow-[0_24px_60px_-20px_rgba(12,7,5,0.55)]">
+        {/* dark fill that rises from the bottom on hover */}
+        <span className="pointer-events-none absolute inset-0 translate-y-full rounded-t-[2rem] bg-[#0c0705] transition-[transform,border-radius] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 group-hover:rounded-t-none" />
         {/* oversized watermark icon */}
         <span className="pointer-events-none absolute -bottom-8 -right-8 text-[#FF5F2D]/[0.07] transition-all duration-700 group-hover:-rotate-12 group-hover:scale-110 group-hover:text-[#FF5F2D]/15">
           <Icon name={reason.icon} className="h-40 w-40" />
@@ -164,10 +167,10 @@ export function WhyChooseUs() {
       </SectionHeader>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <Reveal variant="left" className="lg:row-span-2">
+        <Reveal variant="left" className="h-full">
           <OrbitCard />
         </Reveal>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-2">
+        <div className="grid grid-cols-1 gap-6 sm:auto-rows-fr sm:grid-cols-2 lg:col-span-2">
           {reasons.map((r, i) => (
             <ReasonCard key={r.title} reason={r} index={i} delay={i * 120} />
           ))}
@@ -193,7 +196,7 @@ export function HowWeWork() {
 /* ------------------------------ featured work ------------------------------ */
 
 export function FeaturedWork() {
-  const featured = projects.filter((p) => p.featured).slice(0, 3);
+  const featured = [...projects.filter((p) => p.featured), ...projects.filter((p) => !p.featured)].slice(0, 4);
   if (featured.length === 0) return null;
 
   return (
@@ -216,10 +219,10 @@ export function FeaturedWork() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
         {featured.map((p, i) => (
           <Reveal key={p.slug} delay={i * 120} className="h-full">
-            <ProjectCard project={p} index={i} />
+            <FeaturedProjectCard project={p} index={i} />
           </Reveal>
         ))}
       </div>
@@ -337,8 +340,8 @@ export function LatestBlogs({ posts }) {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {posts.slice(0, 3).map((post, i) => (
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        {posts.slice(0, 4).map((post, i) => (
           <Reveal key={post.id} delay={i * 120} className="h-full">
             <BlogCard post={post} compact />
           </Reveal>

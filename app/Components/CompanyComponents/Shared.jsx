@@ -1,7 +1,38 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
+
+/* -------------------------------- brand mark ------------------------------- */
+
+// Ring with a rounded orange pointer; the mask cuts a gap in the ring around the pointer.
+const LOGO_POINTER = "302,292 422,346 372,412";
+
+export function LogoMark({ className = "h-9 w-9", ringClassName = "fill-[#0c0705]" }) {
+  const maskId = `logo-gap-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
+  return (
+    <svg viewBox="40 35 430 430" className={className} aria-hidden="true">
+      <defs>
+        <mask id={maskId}>
+          <rect x="0" y="0" width="500" height="500" fill="white" />
+          <polygon points={LOGO_POINTER} fill="black" stroke="black" strokeWidth="98" strokeLinejoin="round" />
+        </mask>
+      </defs>
+      <path
+        fillRule="evenodd"
+        mask={`url(#${maskId})`}
+        d="M434,240 A192,192 0 1,1 50,240 A192,192 0 1,1 434,240 Z M352,240 A110,110 0 1,1 132,240 A110,110 0 1,1 352,240 Z"
+        className={ringClassName}
+      />
+      <polygon
+        points={LOGO_POINTER}
+        strokeWidth="72"
+        strokeLinejoin="round"
+        className="fill-[#FF6B00] stroke-[#FF6B00]"
+      />
+    </svg>
+  );
+}
 
 /* ---------------------------------- icons ---------------------------------- */
 
@@ -179,6 +210,13 @@ const iconPaths = {
     </>
   ),
   chat: <path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5 4V6a1 1 0 0 1 1-1Z" />,
+  headset: (
+    <>
+      <path d="M4 14v-2a8 8 0 0 1 16 0v2" />
+      <path d="M4 14a2 2 0 0 1 2-2h1.5v6H6a2 2 0 0 1-2-2v-2ZM20 14a2 2 0 0 0-2-2h-1.5v6H18a2 2 0 0 0 2-2v-2Z" />
+      <path d="M18 18v.5a2.5 2.5 0 0 1-2.5 2.5H13" />
+    </>
+  ),
   briefcase: (
     <>
       <rect x="2.5" y="7" width="19" height="13" rx="2" />
@@ -482,10 +520,11 @@ export function StatRow({ stats }) {
   );
 }
 
-const ctaSteps = [
-  { icon: "chat", title: "Share your goals", desc: "A quick call or WhatsApp chat about what you need." },
-  { icon: "spark", title: "Get ideas & a clear quote", desc: "Within one business day — no hidden costs." },
-  { icon: "rocket", title: "Kick off your project", desc: "We plan, build and launch with you every step." },
+const ctaChips = [
+  { icon: "layout", pos: "left-[8%] top-[22%]", delay: "0s" },
+  { icon: "code", pos: "left-[14%] bottom-[18%]", delay: "1.2s" },
+  { icon: "megaphone", pos: "right-[9%] top-[26%]", delay: "0.6s" },
+  { icon: "growth", pos: "right-[14%] bottom-[16%]", delay: "1.8s" },
 ];
 
 const ctaStats = [
@@ -511,76 +550,70 @@ export function CtaBanner({
         <span className="pointer-events-none absolute -bottom-32 right-1/4 h-72 w-72 rounded-full bg-[#FF5F2D]/15 blur-3xl" />
         <span className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full border border-dashed border-white/15 animate-[spin_40s_linear_infinite]" />
 
-        <div className="relative grid grid-cols-1 gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16">
-          {/* pitch */}
-          <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-medium uppercase tracking-widest text-white/80">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF5F2D] opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF5F2D]" />
-              </span>
-              {eyebrow}
+        {/* floating service chips (desktop) */}
+        {ctaChips.map((c) => (
+          <span
+            key={c.icon}
+            className={`pointer-events-none absolute hidden h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.06] text-[#FF5F2D] shadow-xl shadow-black/30 backdrop-blur animate-float xl:flex ${c.pos}`}
+            style={{ animationDelay: c.delay }}
+          >
+            <Icon name={c.icon} className="h-6 w-6" />
+          </span>
+        ))}
+
+        <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-medium uppercase tracking-widest text-white/80">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF5F2D] opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF5F2D]" />
             </span>
+            {eyebrow}
+          </span>
 
-            <h2 className="mt-6 text-4xl font-semibold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
-              {title} <span className="text-[#FF5F2D]">{highlight}</span>
-            </h2>
+          <h2 className="mt-6 text-4xl font-semibold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
+            {title}{" "}
+            <span className="relative inline-block text-[#FF5F2D]">
+              {highlight}
+              {/* hand-drawn underline */}
+              <svg viewBox="0 0 200 12" preserveAspectRatio="none" className="absolute -bottom-2 left-0 h-3 w-full" aria-hidden="true">
+                <path d="M2 9 C 50 2, 150 2, 198 8" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.6" />
+              </svg>
+            </span>
+          </h2>
 
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg">{text}</p>
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg">{text}</p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link
-                href={href}
-                className="group inline-flex items-center gap-3 rounded-full bg-[#FF5F2D] py-1.5 pl-6 pr-1.5 font-medium text-white shadow-lg shadow-[#FF5F2D]/25 transition-colors hover:bg-white hover:text-[#0c0705]"
-              >
-                {label}
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#FF5F2D] transition-all duration-300 group-hover:translate-x-0.5 group-hover:bg-[#FF5F2D] group-hover:text-white">
-                  <Icon name="arrow" className="h-4 w-4" />
-                </span>
-              </Link>
-              <a
-                href="https://wa.me/918089913696"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 font-medium text-white transition-colors hover:border-[#FF5F2D] hover:text-[#FF5F2D]"
-              >
-                <Icon name="chat" className="h-4 w-4" />
-                Chat on WhatsApp
-              </a>
-            </div>
-
-            <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-4 border-t border-white/10 pt-8">
-              {ctaStats.map((s) => (
-                <div key={s.label}>
-                  <dt className="sr-only">{s.label}</dt>
-                  <dd className="text-2xl font-semibold text-white sm:text-3xl">{s.value}</dd>
-                  <dd className="mt-1 text-xs uppercase tracking-widest text-white/50">{s.label}</dd>
-                </div>
-              ))}
-            </dl>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href={href}
+              className="group inline-flex items-center gap-3 rounded-full bg-[#FF5F2D] py-1.5 pl-6 pr-1.5 font-medium text-white shadow-lg shadow-[#FF5F2D]/25 transition-colors hover:bg-white hover:text-[#0c0705]"
+            >
+              {label}
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#FF5F2D] transition-all duration-300 group-hover:translate-x-0.5 group-hover:bg-[#FF5F2D] group-hover:text-white">
+                <Icon name="arrow" className="h-4 w-4" />
+              </span>
+            </Link>
+            <a
+              href="https://wa.me/918089913696"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 font-medium text-white transition-colors hover:border-[#FF5F2D] hover:text-[#FF5F2D]"
+            >
+              <Icon name="chat" className="h-4 w-4" />
+              Chat on WhatsApp
+            </a>
           </div>
 
-          {/* what happens next */}
-          <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur sm:p-8">
-            <p className="text-xs font-semibold uppercase tracking-widest text-white/50">What happens next</p>
-            <ol className="mt-6 space-y-6">
-              {ctaSteps.map((step, i) => (
-                <li key={step.title} className="relative flex gap-4">
-                  {i < ctaSteps.length - 1 && (
-                    <span className="absolute left-6 top-12 h-[calc(100%-0.75rem)] w-px bg-gradient-to-b from-[#FF5F2D]/60 to-transparent" />
-                  )}
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#FF5F2D]/15 text-[#FF5F2D] ring-1 ring-[#FF5F2D]/30">
-                    <Icon name={step.icon} className="h-5 w-5" />
-                  </span>
-                  <div className="pt-1">
-                    <p className="text-xs font-medium text-[#FF5F2D]">Step {String(i + 1).padStart(2, "0")}</p>
-                    <p className="mt-1 text-lg font-semibold text-white">{step.title}</p>
-                    <p className="mt-1 text-sm leading-relaxed text-white/60">{step.desc}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
+          {/* stats in a glass bar */}
+          <dl className="mt-12 grid w-full max-w-xl grid-cols-3 divide-x divide-white/10 rounded-2xl border border-white/10 bg-white/[0.04] py-5 backdrop-blur">
+            {ctaStats.map((s) => (
+              <div key={s.label} className="px-2">
+                <dt className="sr-only">{s.label}</dt>
+                <dd className="text-2xl font-semibold text-white sm:text-3xl">{s.value}</dd>
+                <dd className="mt-1 text-[10px] uppercase tracking-widest text-white/50 sm:text-xs">{s.label}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </div>
     </Section>
