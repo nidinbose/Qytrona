@@ -1,12 +1,14 @@
-import { connection } from "next/server";
 import Homepage from "./Homepage/Homepage";
-import { getPublishedPosts } from "@/lib/posts";
+import { getLatestPublishedPosts } from "@/lib/posts";
+
+// Serve the home page from cache and refresh it in the background every 5 minutes,
+// instead of querying MongoDB on every visit. Saving a post in admin refreshes it immediately.
+export const revalidate = 300;
 
 export default async function Home() {
-  await connection(); // latest blog posts are loaded per request
   let posts = [];
   try {
-    posts = (await getPublishedPosts()).slice(0, 4);
+    posts = await getLatestPublishedPosts(4);
   } catch (err) {
     console.error("[home] could not load latest posts", err);
   }

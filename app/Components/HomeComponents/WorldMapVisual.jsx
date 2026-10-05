@@ -1,8 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
-import DottedMap from "dotted-map/without-countries";
-import mapData from "./world-map-data.json";
+// The dotted map is pre-rendered to /Images/world-dots.svg by scripts/generate-world-dots.mjs
+// (#d6d6d6 dots on white), so no map library or data ships to the browser.
 
 const MAP_WIDTH = 800;
 const MAP_HEIGHT = 400;
@@ -35,25 +34,12 @@ function curvedPath(a, b) {
 }
 
 export default function WorldMapVisual({
-  dotColor = "#d6d6d6",
-  backgroundColor = "white",
   lineColor = "#f97316",
   hubColor = "#ea580c",
   pointColor = "#ea580c",
   className = "",
   edgeMask = false,
 }) {
-  const mapImage = useMemo(() => {
-    const map = new DottedMap({ map: mapData });
-    const svg = map.getSVG({
-      radius: 0.22,
-      color: dotColor,
-      shape: "circle",
-      backgroundColor,
-    });
-    return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
-  }, [dotColor, backgroundColor]);
-
   const indiaPoint = project(india.lat, india.lng);
 
   return (
@@ -70,9 +56,12 @@ export default function WorldMapVisual({
           : undefined
       }
     >
+      {/* eslint-disable-next-line @next/next/no-img-element -- static SVG, nothing for next/image to optimise */}
       <img
-        src={mapImage}
+        src="/Images/world-dots.svg"
         alt="World map highlighting India's global connections"
+        loading="lazy"
+        decoding="async"
         className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
         draggable={false}
       />

@@ -234,20 +234,19 @@ export function FeaturedWork() {
 
 function Stars() {
   return (
-    <div className="flex gap-0.5 text-[#FF5F2D]" role="img" aria-label="5 out of 5 stars">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <svg key={i} viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
-          <path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9L12 2.8Z" />
-        </svg>
+    // one SVG for all five stars keeps the (repeated) testimonial markup light
+    <svg viewBox="0 0 136 24" fill="currentColor" className="h-4 w-[5.5rem] text-[#FF5F2D]" role="img" aria-label="5 out of 5 stars">
+      {[0, 28, 56, 84, 112].map((x) => (
+        <path key={x} transform={`translate(${x})`} d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9L12 2.8Z" />
       ))}
-    </div>
+    </svg>
   );
 }
 
-function QuoteCard({ t }) {
+function QuoteCard({ t, hidden }) {
   const initials = t.name.replace(/^Dr\.\s*/, "").split(" ").map((w) => w[0]).slice(0, 2).join("");
   return (
-    <figure className="flex w-[340px] shrink-0 flex-col rounded-[1.75rem] border border-gray-200 bg-white p-6 transition-colors duration-300 hover:border-[#FF5F2D]/50 sm:w-[400px]">
+    <figure aria-hidden={hidden || undefined} className="flex w-[340px] shrink-0 flex-col rounded-[1.75rem] border border-gray-200 bg-white p-6 transition-colors duration-300 hover:border-[#FF5F2D]/50 sm:w-[400px]">
       <Stars />
       <blockquote className="mt-4 line-clamp-4 text-base leading-relaxed text-gray-700">&ldquo;{t.quote}&rdquo;</blockquote>
       <figcaption className="mt-auto flex items-center gap-3 pt-6">
@@ -276,7 +275,7 @@ function QuoteRow({ items, reverse }) {
         style={{ animationDuration: "60s" }}
       >
         {loop.map((t, i) => (
-          <QuoteCard key={`${t.name}-${i}`} t={t} />
+          <QuoteCard key={`${t.name}-${i}`} t={t} hidden={i >= items.length} />
         ))}
       </div>
     </div>

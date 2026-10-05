@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
-import mapData from "./world-map-globe-data.json";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-const R_EARTH = 6378137;
+// Dot positions ([lat, lng]) are generated into /public by scripts/generate-globe-dots.mjs and
+// fetched after first paint, so they don't weigh down the page's JavaScript.
+const DOTS_URL = "/globe-dots.json";
 
 const india = { name: "India", lat: 22.3511, lng: 78.6677 };
 
@@ -20,18 +21,6 @@ const connections = [
   { name: "Sydney", lat: -33.8688, lng: 151.2093 },
 ];
 
-function gridToLatLng({ X_MIN, X_MAX, Y_MIN, Y_MAX, width, height, points }) {
-  const out = [];
-  for (const key in points) {
-    const { x, y } = points[key];
-    const mercX = X_MIN + (x / width) * (X_MAX - X_MIN);
-    const mercY = Y_MAX - (y / height) * (Y_MAX - Y_MIN);
-    const lng = (mercX / R_EARTH) * (180 / Math.PI);
-    const lat = (mercY / R_EARTH) * (180 / Math.PI);
-    out.push([lat, lng]);
-  }
-  return out;
-}
 
 function toVec(lat, lng) {
   const latR = (lat * Math.PI) / 180;
@@ -69,12 +58,28 @@ export default function Globe({ className = "" }) {
   const canvasRef = useRef(null);
   const rotationRef = useRef(0);
 
-  const dotVectors = useMemo(() => {
-    return gridToLatLng(mapData).map(([lat, lng]) => ({
-      ...toVec(lat, lng),
-      phase: Math.random() * Math.PI * 2,
-      speed: 0.6 + Math.random() * 0.9,
-    }));
+  const [dotVectors, setDotVectors] = useState([]);
+  const dotsShownAt = useRef(0);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(DOTS_URL)
+      .then((r) => r.json())
+      .then((points) => {
+        if (cancelled) return;
+        dotsShownAt.current = performance.now();
+        setDotVectors(
+          points.map(([lat, lng]) => ({
+            ...toVec(lat, lng),
+            phase: Math.random() * Math.PI * 2,
+            speed: 0.6 + Math.random() * 0.9,
+          }))
+        );
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const indiaVec = useMemo(() => toVec(india.lat, india.lng), []);
@@ -131,6 +136,8 @@ export default function Globe({ className = "" }) {
       ctx.lineWidth = dpr;
       ctx.stroke();
 
+      // dots fade in over 600ms once their data has loaded
+      const dotsFade = reduceMotion ? 1 : Math.min(1, (performance.now() - dotsShownAt.current) / 600);
       for (const vec of dotVectors) {
         const p = project(vec, rotation, cx, cy, radius);
         if (p.z <= 0) continue;
@@ -140,7 +147,7 @@ export default function Globe({ className = "" }) {
         const alpha = 0.12 + depth * 0.22 + twinkle * 0.14;
         ctx.beginPath();
         ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(156,163,175,${Math.min(alpha, 0.55)})`;
+        ctx.fillStyle = `rgba(156,163,175,${Math.min(alpha, 0.55) * dotsFade})`;
         ctx.fill();
       }
 
@@ -205,17 +212,66 @@ export default function Globe({ className = "" }) {
       }
     }
 
-    function frame() {
-      rotationRef.current += 0.006;
-      draw();
-      raf = requestAnimationFrame(frame);
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let visible = true;
+
+    // ~30fps is plenty for a slow spin and halves the main-thread cost (rotation is time-based).
+    const FRAME_MS = 1000 / 30;
+    let last = 0;
+    let ready = false; // don't animate until the page has loaded and the browser is idle
+
+    function frame(now) {
+      if (now - last >= FRAME_MS) {
+        rotationRef.current += 0.006 * Math.min(4, (now - last) / 16.7 || 1);
+        last = now;
+        draw();
+      }
+      raf = visible ? requestAnimationFrame(frame) : 0;
     }
 
-    raf = requestAnimationFrame(frame);
+    function start() {
+      if (ready && !raf && visible && !document.hidden) {
+        last = performance.now();
+        raf = requestAnimationFrame(frame);
+      }
+    }
+
+    function stop() {
+      cancelAnimationFrame(raf);
+      raf = 0;
+    }
+
+    // Only animate while the globe is on screen and the tab is visible.
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible && !reduceMotion) start();
+      else stop();
+    });
+    io.observe(canvas);
+
+    const onVisibility = () => (document.hidden || reduceMotion ? stop() : start());
+    document.addEventListener("visibilitychange", onVisibility);
+
+    // Paint a still globe straight away, then start spinning once loading is done.
+    draw();
+    let idleId;
+    const begin = () => {
+      const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 300));
+      idleId = idle(() => {
+        ready = true;
+        if (!reduceMotion) start();
+      });
+    };
+    if (document.readyState === "complete") begin();
+    else window.addEventListener("load", begin, { once: true });
 
     return () => {
-      cancelAnimationFrame(raf);
+      window.removeEventListener("load", begin);
+      if (idleId) (window.cancelIdleCallback || clearTimeout)(idleId);
+      stop();
+      io.disconnect();
       ro.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [dotVectors, indiaVec, connectionData]);
 

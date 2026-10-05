@@ -1,7 +1,14 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { createPost, getAllPosts, getPublishedPosts, parsePostInput } from "@/lib/posts";
 import { jsonError, readJson, requireAdmin } from "@/lib/api";
 import { getSession } from "@/lib/session";
+
+// Post changes show up on the cached home page and blog list straight away.
+function refreshPostPages() {
+  revalidatePath("/");
+  revalidatePath("/blogs");
+}
 
 // GET /api/posts            -> published posts (public)
 // GET /api/posts?all=1      -> every post incl. drafts (admin only)
@@ -28,6 +35,7 @@ export async function POST(request) {
 
   try {
     const post = await createPost(data);
+    refreshPostPages();
     return NextResponse.json({ post }, { status: 201 });
   } catch (err) {
     if (err?.code === 11000) return jsonError("A post with this slug already exists. Choose another slug.", 409);

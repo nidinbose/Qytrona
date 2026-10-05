@@ -21,8 +21,6 @@ export default function WorldConnections() {
       <WorldMapVisual
         className="max-w-5xl mx-auto w-full aspect-[2/1]"
         edgeMask
-        dotColor="#d6d6d6"
-        backgroundColor="white"
         lineColor="#f97316"
         hubColor="#ea580c"
         pointColor="#fb923c"

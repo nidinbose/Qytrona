@@ -1,8 +1,16 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { deletePost, getPostById, parsePostInput, updatePost } from "@/lib/posts";
 import { jsonError, readJson, requireAdmin } from "@/lib/api";
 
 const validId = (id) => /^[a-f0-9]{24}$/i.test(id);
+
+// Post changes show up on the cached home page and blog list straight away.
+function refreshPostPages() {
+  revalidatePath("/");
+  revalidatePath("/blogs");
+}
+
 
 // GET /api/posts/:id -> a single post incl. drafts (admin only)
 export async function GET(request, { params }) {
@@ -29,6 +37,8 @@ export async function PUT(request, { params }) {
   try {
     const post = await updatePost(id, data);
     if (!post) return jsonError("Post not found.", 404);
+    refreshPostPages();
+    revalidatePath(`/blogs/${post.slug}`);
     return NextResponse.json({ post });
   } catch (err) {
     if (err?.code === 11000) return jsonError("A post with this slug already exists. Choose another slug.", 409);
@@ -44,5 +54,6 @@ export async function DELETE(request, { params }) {
 
   const { id } = await params;
   if (!validId(id) || !(await deletePost(id))) return jsonError("Post not found.", 404);
+  refreshPostPages();
   return NextResponse.json({ ok: true });
 }

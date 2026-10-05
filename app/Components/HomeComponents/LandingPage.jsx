@@ -12,15 +12,21 @@ const flipPhrases = [
   "Custom Software Development",
 ];
 
-function FlipWord({ words, interval = 2600 }) {
+function FlipWord({ words, interval = 2600, initialDelay = 5000 }) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const id = setInterval(() => {
+    // Hold the first phrase a little longer so the hero is stable while the page loads.
+    let id;
+    const first = setTimeout(() => {
       setIndex((i) => (i + 1) % words.length);
-    }, interval);
-    return () => clearInterval(id);
-  }, [words.length, interval]);
+      id = setInterval(() => setIndex((i) => (i + 1) % words.length), interval);
+    }, initialDelay);
+    return () => {
+      clearTimeout(first);
+      clearInterval(id);
+    };
+  }, [words.length, interval, initialDelay]);
 
   const longest = words.reduce((a, b) => (a.length > b.length ? a : b));
 
