@@ -59,7 +59,7 @@ export default function Globe({ className = "" }) {
   const rotationRef = useRef(0);
 
   const [dotVectors, setDotVectors] = useState([]);
-  const dotsShownAt = useRef(0);
+  const staticRef = useRef(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -67,7 +67,6 @@ export default function Globe({ className = "" }) {
       .then((r) => r.json())
       .then((points) => {
         if (cancelled) return;
-        dotsShownAt.current = performance.now();
         setDotVectors(
           points.map(([lat, lng]) => ({
             ...toVec(lat, lng),
@@ -136,8 +135,6 @@ export default function Globe({ className = "" }) {
       ctx.lineWidth = dpr;
       ctx.stroke();
 
-      // dots fade in over 600ms once their data has loaded
-      const dotsFade = reduceMotion ? 1 : Math.min(1, (performance.now() - dotsShownAt.current) / 600);
       for (const vec of dotVectors) {
         const p = project(vec, rotation, cx, cy, radius);
         if (p.z <= 0) continue;
@@ -147,7 +144,7 @@ export default function Globe({ className = "" }) {
         const alpha = 0.12 + depth * 0.22 + twinkle * 0.14;
         ctx.beginPath();
         ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(156,163,175,${Math.min(alpha, 0.55) * dotsFade})`;
+        ctx.fillStyle = `rgba(156,163,175,${Math.min(alpha, 0.55)})`;
         ctx.fill();
       }
 
@@ -252,13 +249,16 @@ export default function Globe({ className = "" }) {
     const onVisibility = () => (document.hidden || reduceMotion ? stop() : start());
     document.addEventListener("visibilitychange", onVisibility);
 
-    // Paint a still globe straight away, then start spinning once loading is done.
-    draw();
+    // The pre-rendered still (globe-static.svg) shows until the dots have loaded and the page is
+    // idle; then the canvas takes over from the same rotation-0 frame and starts spinning.
     let idleId;
     const begin = () => {
+      if (dotVectors.length === 0) return; // effect re-runs once the dots arrive
       const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 300));
       idleId = idle(() => {
         ready = true;
+        draw();
+        if (staticRef.current) staticRef.current.style.visibility = "hidden";
         if (!reduceMotion) start();
       });
     };
@@ -277,6 +277,15 @@ export default function Globe({ className = "" }) {
 
   return (
     <div className={`relative ${className}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element -- static SVG first frame, painted with the HTML */}
+      <img
+        ref={staticRef}
+        src="/globe-static.svg"
+        alt=""
+        aria-hidden="true"
+        fetchPriority="high"
+        className="pointer-events-none absolute inset-0 h-full w-full select-none"
+      />
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
     </div>
   );
