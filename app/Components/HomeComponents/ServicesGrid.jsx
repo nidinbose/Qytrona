@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 function LayoutIcon({ className = "" }) {
   return (
@@ -158,79 +159,60 @@ function CheckIcon({ className = "" }) {
   );
 }
 
-function GalleryVisual() {
-  return (
-    <div className="grid h-full grid-cols-2 grid-rows-2 gap-3 p-3">
-      <div className="rounded-2xl bg-gradient-to-br from-[#FF5F2D] to-[#c73f18]" />
-      <div className="rounded-2xl bg-gradient-to-br from-[#0c0705] to-[#2a201c]" />
-      <div className="rounded-2xl bg-gradient-to-br from-[#0c0705] to-[#2a201c]" />
-      <div className="rounded-2xl bg-gradient-to-br from-[#FF5F2D]/70 to-[#FF5F2D]/20" />
-    </div>
-  );
+
+function imageVisual({ src, alt, position = "object-center" }) {
+  function ImageVisual() {
+    return (
+      <div className="relative h-full w-full">
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          loading="eager"
+          className={`object-cover ${position}`}
+        />
+      </div>
+    );
+  }
+  return ImageVisual;
 }
 
-function ChartVisual() {
-  return (
-    <div className="relative flex h-full flex-col justify-end p-6">
-      <div className="mb-4 flex h-32 items-end gap-3">
-        {[35, 60, 45, 85, 55, 75, 40].map((h, i) => (
-          <div key={i} className="flex-1 rounded-full bg-[#FF5F2D]/80" style={{ height: `${h}%` }} />
-        ))}
-      </div>
-      <div className="h-2.5 w-3/4 rounded-full bg-black/10" />
-      <div className="mt-2 h-2.5 w-1/2 rounded-full bg-black/10" />
-      <div className="absolute right-6 top-6 flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-md">
-        <span className="text-sm font-semibold text-[#FF5F2D]">+24%</span>
-      </div>
-    </div>
-  );
-}
+const WebsiteVisual = imageVisual({
+  src: "/Images/WA1.jpg",
+  alt: "Professional, fast and SEO-optimised business website",
+  // crop mostly from the bottom so the headline stays visible
+  position: "object-[center_20%]",
+});
 
-function AppVisual() {
-  return (
-    <div className="flex h-full items-center justify-center p-6">
-      <div className="flex h-full w-2/3 max-w-[180px] flex-col gap-3 rounded-[1.75rem] border border-black/10 bg-white p-4 shadow-lg">
-        <div className="mx-auto h-1.5 w-10 rounded-full bg-black/10" />
-        <div className="mt-1 h-24 rounded-xl bg-gradient-to-br from-[#FF5F2D] to-[#c73f18]" />
-        <div className="h-2.5 w-3/4 rounded-full bg-black/10" />
-        <div className="h-2.5 w-1/2 rounded-full bg-black/10" />
-        <div className="mt-auto grid grid-cols-3 gap-2">
-          <div className="h-8 rounded-lg bg-black/5" />
-          <div className="h-8 rounded-lg bg-[#FF5F2D]/20" />
-          <div className="h-8 rounded-lg bg-black/5" />
-        </div>
-      </div>
-    </div>
-  );
-}
+const MarketingVisual = imageVisual({
+  src: "/Images/WA3.jpg",
+  alt: "Responsive website shown on laptop, tablet and phone",
+});
 
-function CodeVisual() {
-  const lines = [
-    { w: "60%", c: "bg-[#FF5F2D]/70" },
-    { w: "85%", c: "bg-[#0c0705]/15" },
-    { w: "40%", c: "bg-[#0c0705]/15" },
-    { w: "70%", c: "bg-[#0c0705]/10" },
-    { w: "50%", c: "bg-[#FF5F2D]/40" },
-    { w: "30%", c: "bg-[#0c0705]/10" },
-  ];
-  return (
-    <div className="flex h-full flex-col justify-center gap-3 p-8">
-      {lines.map((line, i) => (
-        <div key={i} className="flex items-center gap-3">
-          <span className="h-2 w-2 shrink-0 rounded-full bg-[#0c0705]/20" />
-          <span className={`h-2.5 rounded-full ${line.c}`} style={{ width: line.w }} />
-        </div>
-      ))}
-    </div>
-  );
-}
+const SoftwareVisual = imageVisual({
+  src: "/Images/WA4.jpg",
+  alt: "Business web application dashboard on a laptop",
+  position: "object-[center_70%]",
+});
+
+const SeoVisual = imageVisual({
+  src: "/Images/WA5.jpg",
+  alt: "SEO, AEO and GEO search optimisation strategies",
+  position: "object-[center_60%]",
+});
+
+const AppVisual = imageVisual({ src: "/Images/WA2.jpg", alt: "Mobile app in use on a smartphone" });
+
+
+
 
 const services = [
   {
     tabLabel: "Website Development",
     tabIcon: LayoutIcon,
     heading: "Website Development",
-    Visual: GalleryVisual,
+    Visual: WebsiteVisual,
     features: [
       {
         title: "Modern UI Design",
@@ -255,7 +237,7 @@ const services = [
     tabLabel: "Digital Marketing",
     tabIcon: MegaphoneIcon,
     heading: "Digital Marketing",
-    Visual: ChartVisual,
+    Visual: MarketingVisual,
     features: [
       {
         title: "Data-Driven SEO",
@@ -275,6 +257,31 @@ const services = [
       },
     ],
     capabilities: [SearchIcon, MegaphoneIcon, CloudIcon, ShieldIcon, RocketIcon],
+  },
+  {
+    tabLabel: "SEO",
+    tabIcon: SearchIcon,
+    heading: "Search Engine Optimisation",
+    Visual: SeoVisual,
+    features: [
+      {
+        title: "Keyword Research",
+        desc: "Find the searches your customers actually use and plan pages around them.",
+      },
+      {
+        title: "On-Page & Technical SEO",
+        desc: "Fast, crawlable pages with clean structure, titles and schema markup.",
+      },
+      {
+        title: "Local SEO",
+        desc: "Google Business Profile and location pages that win 'near me' searches.",
+      },
+      {
+        title: "Rankings & Reporting",
+        desc: "Monthly reports on rankings, traffic and enquiries from search.",
+      },
+    ],
+    capabilities: [SearchIcon, LayoutIcon, RocketIcon, ShieldIcon, CloudIcon],
   },
   {
     tabLabel: "Mobile Applications",
@@ -305,7 +312,7 @@ const services = [
     tabLabel: "Custom Software",
     tabIcon: GearIcon,
     heading: "Custom Software Development",
-    Visual: CodeVisual,
+    Visual: SoftwareVisual,
     features: [
       {
         title: "Tailored Workflows",
@@ -360,20 +367,27 @@ export default function ServicesGrid() {
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-10 xl:grid-cols-2 xl:gap-16">
           {/* Visual panel */}
-          <div className="aspect-square w-full overflow-hidden rounded-[2rem] border border-black/5 bg-gray-50 shadow-sm md:aspect-[4/3] lg:sticky lg:top-24">
-            <Visual />
+          <div className="relative aspect-square w-full overflow-hidden rounded-[2rem] bg-white md:aspect-[4/3] lg:sticky lg:top-24">
+            {/* keyed so each new image re-mounts and slides up from the bottom over the white panel */}
+            <div key={active} className="absolute inset-0 animate-slide-up-in">
+              <Visual />
+            </div>
+            {/* preload the other tabs' images so they're ready before they slide in */}
+            <div className="hidden" aria-hidden="true">
+              {services.map((s, i) => i !== active && <s.Visual key={s.tabLabel} />)}
+            </div>
           </div>
 
           {/* Content */}
           <div>
-            <h2 className="text-4xl font-semibold tracking-tight text-[#0c0705] sm:text-5xl lg:text-6xl">
+            <h2 className="text-3xl font-semibold leading-tight tracking-tight text-[#0c0705] sm:text-4xl lg:text-[2.75rem] xl:text-6xl">
               {service.heading}
             </h2>
 
             {/* Tabs */}
-            <div className="mt-8 flex flex-wrap gap-2 sm:gap-3">
+            <div className="mt-6 flex flex-wrap gap-2 xl:mt-8 xl:gap-3">
               {services.map((s, i) => {
                 const TabIcon = s.tabIcon;
                 const isActive = i === active;
@@ -381,13 +395,13 @@ export default function ServicesGrid() {
                   <button
                     key={s.tabLabel}
                     onClick={() => setActive(i)}
-                    className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                    className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors xl:gap-2 xl:px-4 xl:py-2 xl:text-sm ${
                       isActive
                         ? "border-[#FF5F2D] bg-[#FF5F2D] text-white"
                         : "border-gray-200 bg-white text-gray-600 hover:border-[#FF5F2D]/40 hover:text-[#0c0705]"
                     }`}
                   >
-                    <TabIcon className="h-4 w-4" />
+                    <TabIcon className="h-3.5 w-3.5 xl:h-4 xl:w-4" />
                     {s.tabLabel}
                   </button>
                 );
@@ -396,7 +410,7 @@ export default function ServicesGrid() {
 
             {/* Checklist card */}
             <div className="mt-8 rounded-2xl border border-gray-200 bg-gray-50 p-6 sm:p-8">
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-7">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-7 lg:grid-cols-1 xl:grid-cols-2">
                 {service.features.map((feature) => (
                   <div key={feature.title} className="flex gap-3">
                     <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#FF5F2D] text-white">
@@ -414,7 +428,7 @@ export default function ServicesGrid() {
             </div>
 
             {/* Capabilities + stats row */}
-            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-[1fr_auto]">
+            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-[1fr_auto] lg:grid-cols-1 xl:grid-cols-[1fr_auto]">
               <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 p-5">
                 {service.capabilities.map((CapIcon, i) => (
                   <span
